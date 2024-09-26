@@ -1,0 +1,50 @@
+{
+  "name": "product-story-poc",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "eslint .",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@chakra-ui/icons": "^2.1.1",
+    "@chakra-ui/next-js": "^2.2.0",
+    "@chakra-ui/react": "^2.8.2",
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.0",
+    "@fontsource/poppins": "^5.0.12",
+    "@react-spring/web": "^9.7.3",
+    "@react-three/drei": "^9.102.6",
+    "@react-three/fiber": "^8.15.19",
+    "@tanstack/react-query": "^5.36.0",
+    "framer-motion": "^11.0.15",
+    "nanoid": "^5.0.7",
+    "next": "14.1.4",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-dropzone": "^14.2.3",
+    "react-icons": "^5.0.1",
+    "react-intersection-observer": "^9.13.0",
+    "react-slick": "^0.30.2",
+    "react-use-gesture": "^9.1.3",
+    "sharp": "^0.33.4",
+    "slick-carousel": "^1.8.1",
+    "styled-components": "^6.1.8",
+    "three": "^0.162.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.9.0",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "@vitejs/plugin-react": "^4.3.1",
+    "eslint": "^9.9.0",
+    "eslint-plugin-react": "^7.35.0",
+    "eslint-plugin-react-hooks": "^5.1.0-rc.0",
+    "eslint-plugin-react-refresh": "^0.4.9",
+    "globals": "^15.9.0",
+    "vite": "^5.4.1"
+  }
+}
