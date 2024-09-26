@@ -1,10 +1,10 @@
-import React from 'react';
-import { Box } from '@chakra-ui/react';
-import ContentBuilder from './ContentBuilder';
+import React from "react";
+import { Box } from "@chakra-ui/react";
+import ContentBuilder from "./ContentBuilder";
 
 const ContentBuilderPage = () => {
   return (
-    <Box w="100dvw" minH="100dvh" borderWidth={2} borderColor="red">
+    <Box w="100dvw" minH="100dvh" borderWidth={2}>
       <ContentBuilder />
     </Box>
   );

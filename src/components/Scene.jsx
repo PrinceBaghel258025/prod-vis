@@ -14,23 +14,29 @@ import { HeroSection } from "./HeroSection";
 import MediaContentIn360 from "./MediaContentIn360";
 import { SplashScreen } from "./generic/SplashScreen";
 import ScreenInfoCard from "./generic/ScreenInfoCard";
-import { useInView } from 'react-intersection-observer';
+import { useInView } from "react-intersection-observer";
 import { RiLoader4Fill } from "react-icons/ri";
 
 export const LoadingBox = () => (
-  <Box height={"100dvh"} width={"100dvw"} display={'flex'} justifyContent={'center'} borderWidth={4} alignItems={'center'}>
-    <Box className="animate-pulse" >
+  <Box
+    height={"100dvh"}
+    width={"100dvw"}
+    display={"flex"}
+    justifyContent={"center"}
+    borderWidth={4}
+    alignItems={"center"}
+  >
+    <Box className="animate-pulse">
       <Spinner
-        thickness='4px'
-        speed='0.65s'
-        emptyColor='gray.200'
-        color='blue.500'
-        size='xl'
+        thickness="4px"
+        speed="0.65s"
+        emptyColor="gray.200"
+        color="blue.500"
+        size="xl"
       />
     </Box>
   </Box>
-)
-
+);
 
 function Loading() {
   return (
@@ -39,7 +45,6 @@ function Loading() {
     </Html>
   );
 }
-
 
 const ImageSphere = ({
   data,
@@ -114,7 +119,6 @@ const VideoSphere = ({
   let videoTexture = useVideoTexture(image_url);
   const meshRef = useRef();
 
-
   // const [rotated, setRotated] = useState(false);
   // useFrame(() => {
   //   if (meshRef.current && !rotated) {
@@ -183,21 +187,30 @@ const VideoSphere = ({
   );
 };
 
-const Sphere = ({ data, setIsInteracting, isBottomSheetOpen, targetRotation }) => {
+const Sphere = ({
+  data,
+  setIsInteracting,
+  isBottomSheetOpen,
+  targetRotation,
+}) => {
   const image_360 = data?.find((info) => info?.type === "360_image");
   const video_360 = data?.find((info) => info?.type === "360_video");
   if (image_360) {
     return (
-      image_360?.image_url && <ImageSphere targetRotation={targetRotation}
-        data={image_360}
-        setIsInteracting={setIsInteracting}
-        image_url={image_360?.image_url}
-        isBottomSheetOpen={isBottomSheetOpen}
-      />
+      image_360?.image_url && (
+        <ImageSphere
+          targetRotation={targetRotation}
+          data={image_360}
+          setIsInteracting={setIsInteracting}
+          image_url={image_360?.image_url}
+          isBottomSheetOpen={isBottomSheetOpen}
+        />
+      )
     );
   } else if (video_360) {
     return (
-      <VideoSphere targetRotation={targetRotation}
+      <VideoSphere
+        targetRotation={targetRotation}
         data={video_360}
         setIsInteracting={setIsInteracting}
         image_url={video_360?.image_url}
@@ -214,9 +227,17 @@ const FrameUpdater = ({ setIsInsideSphere }) => {
   return null;
 };
 
-export const Scene = ({ data, isBottomSheetOpen, setIsBottomSheetOpen, setIsInteracting, header, fov, targetRotation, zoom = 1 }) => {
+export const Scene = ({
+  data,
+  isBottomSheetOpen,
+  setIsBottomSheetOpen,
+  setIsInteracting,
+  header,
+  fov,
+  targetRotation,
+  zoom = 1,
+}) => {
   const [isInsideSphere, setIsInsideSphere] = useState(true);
-
 
   // const { ref, inView } = useInView({
   //   threshold: 0.6, onChange: (inView, entry) => {
@@ -228,28 +249,33 @@ export const Scene = ({ data, isBottomSheetOpen, setIsBottomSheetOpen, setIsInte
   // console.log("value of inView", header, inView)
   return (
     // <Box ref={ref} w={"100dvw"} h={"100dvh"}>
-    <Box w={"50dvw"} h={"80dvh"} borderWidth={2} borderColor={"red"}>
+    <Box w={"50dvw"} h={"80dvh"}>
       {/* {inView ? */}
-      <><Canvas camera={{ position: [0, 0, 0.001], fov: 70, zoom: [zoom] }}>
-        <ambientLight intensity={1} />
-        <Suspense fallback={Loading}>
-          {data && (
-            <Sphere
-              targetRotation={targetRotation}
-              setIsInteracting={setIsInteracting}
-              data={data}
-              isBottomSheetOpen={isBottomSheetOpen}
-            />
-          )}
-        </Suspense>
-        <OrbitControls enableRotate={true} enableZoom={false} />
-        <FrameUpdater setIsInsideSphere={setIsInsideSphere} />
-      </Canvas>
+      <>
+        <Canvas camera={{ position: [0, 0, 0.001], fov: 70, zoom: [zoom] }}>
+          <ambientLight intensity={1} />
+          <Suspense fallback={Loading}>
+            {data && (
+              <Sphere
+                targetRotation={targetRotation}
+                setIsInteracting={setIsInteracting}
+                data={data}
+                isBottomSheetOpen={isBottomSheetOpen}
+              />
+            )}
+          </Suspense>
+          <OrbitControls enableRotate={true} enableZoom={false} />
+          <FrameUpdater setIsInsideSphere={setIsInsideSphere} />
+        </Canvas>
         {isInsideSphere && (
           <>
-            <HeroSection header={header}
+            <HeroSection
+              header={header}
               data={data}
-              setIsBottomSheetOpen={(val) => { setIsBottomSheetOpen(val); setIsInteracting(!val) }}
+              setIsBottomSheetOpen={(val) => {
+                setIsBottomSheetOpen(val);
+                setIsInteracting(!val);
+              }}
             />
           </>
         )}
