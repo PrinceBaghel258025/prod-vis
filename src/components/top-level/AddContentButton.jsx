@@ -5,6 +5,7 @@ import {
   MenuButton,
   MenuList,
   MenuItem,
+  Tag,
 } from "@chakra-ui/react";
 import { AddIcon } from "@chakra-ui/icons";
 
@@ -30,10 +31,17 @@ const AddContentButton = ({ onAdd, contents }) => {
             <MenuItem onClick={() => onAdd("360_video")}>360° Video</MenuItem>
           </>
         )}
-        <MenuItem onClick={() => onAdd("header")}>Header</MenuItem>
-        <MenuItem onClick={() => onAdd("text_content")}>Text Content</MenuItem>
-        <MenuItem onClick={() => onAdd("media_content")}>
-          Media Content
+        <MenuItem onClick={() => onAdd("banner")} gap={2}>
+          Banner <Tag borderRadius={10}>Sheet</Tag>
+        </MenuItem>
+        <MenuItem onClick={() => onAdd("header")} gap={2}>
+          Header <Tag borderRadius={10}>Sheet</Tag>
+        </MenuItem>
+        <MenuItem onClick={() => onAdd("text_content")} gap={2}>
+          Text Content <Tag borderRadius={10}>Sheet</Tag>
+        </MenuItem>
+        <MenuItem onClick={() => onAdd("media_content")} gap={2}>
+          Media Content <Tag borderRadius={10}>Sheet</Tag>
         </MenuItem>
       </MenuList>
     </Menu>

@@ -42,7 +42,7 @@ const ContentCard = ({
     });
   };
 
-  const mediaTypes = ["360_image", "360_video", "media_content"];
+  const mediaTypes = ["360_image", "360_video", "media_content", "banner"];
 
   const contentTypes = ["header", "text_content"];
 
