@@ -224,6 +224,7 @@ const ContentBuilder = () => {
         id: nanoid(),
         type,
         header: "",
+        text_content: "",
         data: [
           {
             id: nanoid(),
@@ -250,16 +251,17 @@ const ContentBuilder = () => {
   };
 
   return (
-    <Box display="flex" h="100%">
+    <Box display="flex" h="100%" bg={"#F5F6FA"}>
       <Box
         width="60%"
         position="relative"
         h="100dvh"
         padding={10}
+        overflowX={"hidden"}
         overflowY={"scroll"}
       >
         <Box position="absolute" top={10} right={4}>
-          <AddContentButton onAdd={addContent} />
+          <AddContentButton onAdd={addContent} contents={contents} />
         </Box>
 
         <VStack mt={24} spacing={4} align="stretch">
