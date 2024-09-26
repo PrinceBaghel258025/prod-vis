@@ -51,10 +51,10 @@ const CarouselComponent = ({ productData, defaultSheetData }) => {
       sliderRef.current.slickPrev();
     }
   };
-  console.log("state carousel", productData)
+  console.log("state carousel", productData);
 
   return (
-    <Stack position={"relative"} overflow={"hidden"} maxH={"80dvh"}>
+    <Stack position={"relative"} overflow={"hidden"}>
       <Slider ref={sliderRef} {...settings}>
         {productData?.map((dataset) => {
           return (

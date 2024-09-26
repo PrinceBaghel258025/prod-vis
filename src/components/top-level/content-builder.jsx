@@ -4,7 +4,7 @@ import ContentBuilder from "./ContentBuilder";
 
 const ContentBuilderPage = () => {
   return (
-    <Box w="100dvw" minH="100dvh" borderWidth={2}>
+    <Box w="100dvw" minH="100dvh">
       <ContentBuilder />
     </Box>
   );

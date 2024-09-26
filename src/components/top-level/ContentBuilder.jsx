@@ -251,10 +251,17 @@ const ContentBuilder = () => {
 
   return (
     <Box display="flex" h="100%">
-      <Box width="50%" position="relative" borderWidth={2} h="100%">
-        <Box position="absolute" top={0} right={4}>
+      <Box
+        width="60%"
+        position="relative"
+        h="100dvh"
+        padding={10}
+        overflowY={"scroll"}
+      >
+        <Box position="absolute" top={10} right={4}>
           <AddContentButton onAdd={addContent} />
         </Box>
+
         <VStack mt={24} spacing={4} align="stretch">
           {contents.map((content) => (
             <ContentCard
@@ -267,14 +274,14 @@ const ContentBuilder = () => {
         </VStack>
       </Box>
 
-      <Stack width="50%" borderWidth={2} h="100%" alignItems={"center"}>
+      <Stack width="40%" h="100%" alignItems={"center"}>
         <Stack
           w={"292px"}
           h={"603px"}
-          my={5}
+          mt={50}
           borderWidth={5}
           borderColor={"black"}
-          borderRadius={30}
+          borderRadius={50}
           overflow={"hidden"}
         >
           <CarouselComponent

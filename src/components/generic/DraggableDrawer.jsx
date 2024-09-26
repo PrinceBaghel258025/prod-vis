@@ -28,7 +28,7 @@ export default function DraggableDrawer({
 }) {
   const { height } = useWindowSize();
   const level = React.useMemo(
-    () => [0, -(height - 80), -(height - 80)],
+    () => [0, -(height - 160), -(height - 160)],
     [height]
   );
 
