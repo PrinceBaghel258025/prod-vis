@@ -10,7 +10,9 @@ import {
 import { AddIcon } from "@chakra-ui/icons";
 
 const AddContentButton = ({ onAdd, contents }) => {
-  const removeBtn = contents?.some((btn) => btn?.type?.includes("banner"));
+  const removeBtn = contents?.some((btn) =>
+    btn?.type?.includes("brand_banner")
+  );
 
   return (
     <Menu>
@@ -23,24 +25,24 @@ const AddContentButton = ({ onAdd, contents }) => {
         isRound
       />
       <MenuList>
-        <MenuItem onClick={() => onAdd("360_image")} gap={2}>
+        <MenuItem onClick={() => onAdd("carousel_360_image")} gap={2}>
           360° Image<Tag borderRadius={10}>Carousel</Tag>
         </MenuItem>
 
-        <MenuItem onClick={() => onAdd("360_video")} gap={2}>
+        <MenuItem onClick={() => onAdd("carousel_360_video")} gap={2}>
           360° Video<Tag borderRadius={10}>Carousel</Tag>
         </MenuItem>
 
-        <MenuItem onClick={() => onAdd("2d_image")} gap={2}>
+        <MenuItem onClick={() => onAdd("carousel_2d_image")} gap={2}>
           2d Image<Tag borderRadius={10}>Carousel</Tag>
         </MenuItem>
 
-        <MenuItem onClick={() => onAdd("2d_video")} gap={2}>
+        <MenuItem onClick={() => onAdd("carousel_2d_video")} gap={2}>
           2d Video<Tag borderRadius={10}>Carousel</Tag>
         </MenuItem>
 
         {!removeBtn && (
-          <MenuItem onClick={() => onAdd("banner")} gap={2}>
+          <MenuItem onClick={() => onAdd("brand_banner")} gap={2}>
             Banner <Tag borderRadius={10}>Sheet</Tag>
           </MenuItem>
         )}
@@ -53,8 +55,12 @@ const AddContentButton = ({ onAdd, contents }) => {
           Text Content <Tag borderRadius={10}>Sheet</Tag>
         </MenuItem>
 
-        <MenuItem onClick={() => onAdd("media_content")} gap={2}>
-          Media Content <Tag borderRadius={10}>Sheet</Tag>
+        <MenuItem onClick={() => onAdd("image_content")} gap={2}>
+          2D Image <Tag borderRadius={10}>Sheet</Tag>
+        </MenuItem>
+
+        <MenuItem onClick={() => onAdd("video_content")} gap={2}>
+          2D Video <Tag borderRadius={10}>Sheet</Tag>
         </MenuItem>
       </MenuList>
     </Menu>

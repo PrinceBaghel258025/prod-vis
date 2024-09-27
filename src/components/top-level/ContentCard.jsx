@@ -18,6 +18,7 @@ const ContentCard = ({
   type,
   header,
   data,
+  header_text,
   onUpdate,
   text_content,
   onDelete,
@@ -28,6 +29,10 @@ const ContentCard = ({
 
   const handleHeaderChange = (e) => {
     onUpdate({ header: e.target.value });
+  };
+
+  const handleSheetHeaderChange = (e) => {
+    onUpdate({ header_text: e.target.value });
   };
 
   const handleTextContentChange = (e) => {
@@ -46,15 +51,18 @@ const ContentCard = ({
   };
 
   const mediaTypes = [
-    "360_image",
-    "360_video",
-    "media_content",
-    "banner",
-    "2d_image",
-    "2d_video",
+    "carousel_360_image",
+    "carousel_360_video",
+    "brand_banner",
+    "carousel_2d_image",
+    "carousel_2d_video",
+    "image_content",
+    "video_content",
   ];
 
-  const contentTypes = ["header", "text_content"];
+  const contentTypes = ["carousel_360_image", "carousel_360_video"];
+
+  const sheetContentTypes = ["header", "text_content"];
 
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id });
@@ -111,6 +119,25 @@ const ContentCard = ({
             ref={inputRef}
             value={header}
             onChange={handleHeaderChange}
+          />
+          <IconButton
+            aria-label="Edit"
+            icon={<EditIcon />}
+            size="sm"
+            ml={2}
+            onClick={() => inputRef.current.focus()}
+          />
+        </Box>
+      )}
+
+      {sheetContentTypes.includes(type) && (
+        <Box display="flex" alignItems="center" mb={4}>
+          <Input
+            placeholder="Header"
+            size="sm"
+            ref={inputRef}
+            value={header_text}
+            onChange={handleSheetHeaderChange}
           />
           <IconButton
             aria-label="Edit"

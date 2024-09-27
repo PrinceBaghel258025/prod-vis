@@ -223,14 +223,49 @@ const datasets2 = [
 const ContentBuilder = () => {
   const [contents, setContents] = useState([]);
 
+  const template = {
+    text_content: {
+      header: "",
+      content: "",
+    },
+    image_content: {
+      image_urls: [],
+    },
+    video_content: {
+      video_urls: [],
+    },
+    header: {
+      header_text: "",
+    },
+    brand_banner: "",
+    redirect_url: {
+      link: {
+        url: "",
+        label: "",
+      },
+    },
+    social_links: {
+      social_links: [
+        {
+          url: "",
+          label: "",
+          thumbnail: "",
+        },
+      ],
+    },
+  };
+
   const addContent = (type) => {
+    // If the type is not in the template, create an empty object
+    const contentData = template[type] ? template[type] : {};
+
     setContents([
       ...contents,
       {
         id: nanoid(),
         type,
+        ...contentData,
         header: "",
-        text_content: "",
         data: [
           {
             id: nanoid(),
@@ -271,9 +306,12 @@ const ContentBuilder = () => {
   const carouselComponents = useMemo(
     () =>
       contents.filter((content) =>
-        ["360_image", "360_video", "2d_image", "2d_video"].includes(
-          content.type
-        )
+        [
+          "carousel_360_image",
+          "carousel_360_video",
+          "carousel_2d_image",
+          "carousel_2d_video",
+        ].includes(content.type)
       ),
     [contents]
   );
@@ -282,9 +320,12 @@ const ContentBuilder = () => {
     () =>
       contents.filter(
         (content) =>
-          !["360_image", "360_video", "2d_image", "2d_video"].includes(
-            content.type
-          )
+          ![
+            "carousel_360_image",
+            "carousel_360_video",
+            "carousel_2d_image",
+            "carousel_2d_video",
+          ].includes(content.type)
       ),
     [contents]
   );
@@ -327,6 +368,7 @@ const ContentBuilder = () => {
                   Carousel Section
                 </Tag>
               )}
+
               {carouselComponents.map((content) => (
                 <ContentCard
                   key={content.id}
@@ -357,6 +399,7 @@ const ContentBuilder = () => {
                   Bottom Sheet Section
                 </Tag>
               )}
+
               {otherComponents.map((content) => (
                 <ContentCard
                   key={content.id}
@@ -382,7 +425,7 @@ const ContentBuilder = () => {
         >
           <CarouselComponent
             productData={contents}
-            defaultSheetData={defaultSheetData}
+            defaultSheetData={contents}
           />
         </Stack>
       </Stack>
