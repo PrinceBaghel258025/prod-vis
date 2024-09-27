@@ -120,11 +120,11 @@ export default function DraggableDrawer({
 
   return (
     <>
-      <Backdrop
+      {/* <Backdrop
         as={animated.div}
         onClick={handleDrawerClose}
         style={{ opacity: y.to([0, level[1]], [0, 1]) }}
-      />
+      /> */}
       <BottomSheet
         as={animated.div}
         style={{ transform: y.to((y) => `translate3D(0, ${y}px, 0)`) }}

@@ -18,9 +18,8 @@ const ContentCard = ({
   type,
   header,
   data,
-  header_text,
   onUpdate,
-  text_content,
+  content,
   onDelete,
   isCarousel = false,
 }) => {
@@ -31,12 +30,8 @@ const ContentCard = ({
     onUpdate({ header: e.target.value });
   };
 
-  const handleSheetHeaderChange = (e) => {
-    onUpdate({ header_text: e.target.value });
-  };
-
   const handleTextContentChange = (e) => {
-    onUpdate({ text_content: e.target.value });
+    onUpdate({ content: e.target.value });
   };
 
   const handleMediaChange = (newMedia) => {
@@ -60,9 +55,12 @@ const ContentCard = ({
     "video_content",
   ];
 
-  const contentTypes = ["carousel_360_image", "carousel_360_video"];
-
-  const sheetContentTypes = ["header", "text_content"];
+  const contentTypes = [
+    "header",
+    "text_content",
+    "carousel_360_image",
+    "carousel_360_video",
+  ];
 
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id });
@@ -130,32 +128,13 @@ const ContentCard = ({
         </Box>
       )}
 
-      {sheetContentTypes.includes(type) && (
-        <Box display="flex" alignItems="center" mb={4}>
-          <Input
-            placeholder="Header"
-            size="sm"
-            ref={inputRef}
-            value={header_text}
-            onChange={handleSheetHeaderChange}
-          />
-          <IconButton
-            aria-label="Edit"
-            icon={<EditIcon />}
-            size="sm"
-            ml={2}
-            onClick={() => inputRef.current.focus()}
-          />
-        </Box>
-      )}
-
       {type === "text_content" && (
         <Box display="flex" alignItems="start" mb={4}>
           <Textarea
             placeholder="text content"
             size="sm"
             ref={textContentRef}
-            value={text_content}
+            value={content}
             onChange={handleTextContentChange}
             height="100px"
           />

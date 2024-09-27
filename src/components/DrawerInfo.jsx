@@ -29,14 +29,13 @@ export const DrawerInfo = ({ data }) => {
         ? data?.map((info) => {
             switch (info?.type) {
               case "header":
-                return (
-                  <Header key={info?.id} headerTitle={info?.header_text} />
-                );
+                return <Header key={info?.id} headerTitle={info?.header} />;
               case "text_content":
                 return (
                   <TextContent
                     key={info?.id}
-                    textContent={info?.text_content}
+                    header={info?.header}
+                    content={info?.content}
                   />
                 );
               case "image_content":

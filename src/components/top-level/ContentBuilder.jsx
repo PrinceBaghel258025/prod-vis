@@ -59,7 +59,7 @@ const defaultSheetData = [
   {
     id: 7,
     type: "header",
-    header_text: "Our Team",
+    header: "Our Team",
   },
   {
     id: 8,
@@ -235,7 +235,7 @@ const ContentBuilder = () => {
       video_urls: [],
     },
     header: {
-      header_text: "",
+      header: "",
     },
     brand_banner: "",
     redirect_url: {
