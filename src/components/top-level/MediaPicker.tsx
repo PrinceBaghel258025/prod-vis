@@ -27,16 +27,20 @@ const MediaPicker = ({ type, selectedImages, onImagesChange }) => {
 
   const { getRootProps, getInputProps, open } = useDropzone({
     onDrop,
-    accept:
-      type === "carousel_360_image" || "brand_banner"
-        ? {
-            "image/jpeg": [],
-            "image/png": [],
-          }
-        : {
-            "video/mp4": [],
-            "video/mov": [],
-          },
+    accept: [
+      "carousel_360_image",
+      "brand_banner",
+      "carousel_2d_image",
+      "image_content",
+    ].some((t) => t === type)
+      ? {
+          "image/jpeg": [],
+          "image/png": [],
+        }
+      : {
+          "video/mp4": [],
+          "video/mov": [],
+        },
     noClick: true,
     noKeyboard: true,
   });

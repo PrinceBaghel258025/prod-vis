@@ -31,14 +31,14 @@ export const ImageContent = ({ media }) => {
 
   return (
     <>
-      {images?.length === 1 ? (
+      {images?.length === 1 && images?.[0]?.image_url ? (
         <Image
           w={"100%"}
           borderRadius={8}
           src={images[0]?.image_url}
           alt="image"
         />
-      ) : (
+      ) : images?.[0]?.image_url ? (
         <Stack as={Slider} {...settings} my={3}>
           {images?.map((img) => (
             <Image
@@ -51,7 +51,7 @@ export const ImageContent = ({ media }) => {
             />
           ))}
         </Stack>
-      )}
+      ) : null}
     </>
   );
 };

@@ -12,7 +12,9 @@ const VideoContent = ({ media }) => {
     return { videos };
   };
 
-  const { videos } = splitMedia(media);
+  // const { videos } = splitMedia(media);
+
+  const videos = media;
 
   const settings = {
     dots: true,
@@ -24,13 +26,13 @@ const VideoContent = ({ media }) => {
   };
   return (
     <>
-      {videos?.length === 1 ? (
+      {videos?.length === 1 && videos?.[0]?.image_url ? (
         <Flex borderRadius={"1rem"}>
           <video
             style={{
               borderRadius: "0.5rem",
             }}
-            src={videos[0]}
+            src={videos[0]?.image_url}
             controls
             autoPlay
             loop
@@ -39,7 +41,7 @@ const VideoContent = ({ media }) => {
           />
           <Text w={"16rem"} h={"9rem"} display={"none"} />
         </Flex>
-      ) : (
+      ) : videos?.[0]?.image_url ? (
         <HStack as={Slider} {...settings} width={"100%"} my={3}>
           {videos?.map((video) => (
             <Flex key={video} borderRadius={"1rem"}>
@@ -47,7 +49,7 @@ const VideoContent = ({ media }) => {
                 style={{
                   borderRadius: "0.5rem",
                 }}
-                src={video}
+                src={video?.image_url}
                 controls
                 autoPlay
                 loop
@@ -58,7 +60,7 @@ const VideoContent = ({ media }) => {
             </Flex>
           ))}
         </HStack>
-      )}
+      ) : null}
     </>
   );
 };

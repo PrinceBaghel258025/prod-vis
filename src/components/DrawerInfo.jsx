@@ -51,7 +51,7 @@ export const DrawerInfo = ({ data }) => {
                   <BusinessPartner key={info?.id} partner={info?.partners} />
                 );
               case "video_content":
-                return <VideoContent key={info?.id} media={info?.video_urls} />;
+                return <VideoContent key={info?.id} media={info?.data} />;
               case "redirect_url":
                 return <RedirectButton key={info?.id} link={info} />;
               case "social_links":

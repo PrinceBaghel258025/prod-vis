@@ -66,6 +66,10 @@ const AddContentButton = ({ onAdd, contents }) => {
         <MenuItem onClick={() => onAdd("redirect_url")} gap={2}>
           Redirect <Tag borderRadius={10}>Sheet</Tag>
         </MenuItem>
+
+        <MenuItem onClick={() => onAdd("social_links")} gap={2}>
+          Social Links <Tag borderRadius={10}>Sheet</Tag>
+        </MenuItem>
       </MenuList>
     </Menu>
   );

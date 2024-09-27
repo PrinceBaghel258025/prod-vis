@@ -8,11 +8,19 @@ import {
   Input,
   Textarea,
   Stack,
+  Text,
+  Icon,
 } from "@chakra-ui/react";
 import { DeleteIcon, EditIcon, DragHandleIcon } from "@chakra-ui/icons";
 import MediaPicker from "./MediaPicker";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import { FaYoutube } from "react-icons/fa";
+import { FaAmazon } from "react-icons/fa";
+import { FaFacebookSquare } from "react-icons/fa";
+import { FaPinterest } from "react-icons/fa";
+import { FaShopify } from "react-icons/fa";
+import { IoLogoInstagram } from "react-icons/io5";
 
 const ContentCard = ({
   id,
@@ -108,15 +116,17 @@ const ContentCard = ({
           />
           <Heading size="md">{type}</Heading>
         </HStack>
-        <HStack>
+
+        <HStack spacing={5}>
           <IconButton
             onClick={onDelete}
             aria-label="Delete"
             icon={<DeleteIcon />}
-            size="sm"
+            size="md"
+            borderRadius={"100%"}
           />
           <Switch
-            size="sm"
+            size="md"
             onChange={() => onUpdate({ isActive: !data[0]?.isActive })}
           />
         </HStack>
@@ -130,6 +140,7 @@ const ContentCard = ({
             ref={inputRef}
             value={header}
             onChange={handleHeaderChange}
+            borderRadius={50}
           />
           <IconButton
             aria-label="Edit"
@@ -150,6 +161,7 @@ const ContentCard = ({
             value={content}
             onChange={handleTextContentChange}
             height="100px"
+            borderRadius={10}
           />
           <IconButton
             aria-label="Edit"
@@ -190,7 +202,7 @@ const ContentCard = ({
 
           <Box display="flex" alignItems="start" mb={4}>
             <Input
-              placeholder="Enter url"
+              placeholder="Enter url: https://agspert.com/"
               size="sm"
               ref={urlRef}
               value={url}
@@ -207,7 +219,76 @@ const ContentCard = ({
           </Box>
         </Stack>
       )}
+
+      {type === "social_links" && (
+        <Stack mx={10} my={5}>
+          <HStack
+            bg={"#EAEAEA"}
+            padding={3}
+            w={"fit-content"}
+            borderRadius={50}
+            spacing={5}
+          >
+            <SocialIcon icon={FaYoutube} color={"#ce1312"} />
+            <SocialIcon icon={FaAmazon} color={"black"} />
+            <SocialIcon icon={FaFacebookSquare} color={"#4460A0"} />
+            <SocialIcon icon={FaPinterest} color={"#cc2127"} />
+            <SocialIcon icon={FaShopify} color={"#81bf37"} />
+            <SocialIcon icon={IoLogoInstagram} color={"#d62da6"} />
+          </HStack>
+
+          <Stack mt={3}>
+            <HStack>
+              <Icon
+                as={FaYoutube}
+                color={"#ce1312"}
+                fontSize={35}
+                bg={"white"}
+                p={1}
+                borderRadius={"100%"}
+                cursor={"pointer"}
+                border={"1px solid #E2E8F0"}
+              />
+              <Input
+                placeholder="Youtube"
+                size="sm"
+                ref={inputRef}
+                value={header}
+                onChange={() => {}}
+                borderRadius={50}
+              />
+              <IconButton
+                aria-label="Edit"
+                icon={<EditIcon />}
+                size="sm"
+                onClick={() => textContentRef.current.focus()}
+              />
+              <IconButton
+                onClick={() => {}}
+                aria-label="Delete"
+                icon={<DeleteIcon />}
+                size="sm"
+                borderRadius={5}
+              />
+            </HStack>
+          </Stack>
+        </Stack>
+      )}
     </Box>
+  );
+};
+
+const SocialIcon = ({ icon, color }) => {
+  return (
+    <Icon
+      as={icon}
+      color={color}
+      fontSize={50}
+      bg={"white"}
+      p={1}
+      borderRadius={"100%"}
+      cursor={"pointer"}
+    />
   );
 };
 
