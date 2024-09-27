@@ -8,7 +8,7 @@ export const BrandBanner = ({ data }) => {
     <>
       {brandBanner ? (
         <Image
-          src={brandBanner?.brand_banner}
+          src={brandBanner?.data[0]?.image_url}
           alt="banner"
           position={"absolute"}
           top={0}

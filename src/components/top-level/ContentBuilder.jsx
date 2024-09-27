@@ -74,10 +74,8 @@ const defaultSheetData = [
       "https://360-images-v1.s3.ap-south-1.amazonaws.com/Woolah_banner2.webp",
   },
   {
-    link: {
-      url: "https://woolahtea.com/products/rare-assam-green-tea",
-      label: "View Product",
-    },
+    url: "https://woolahtea.com/products/rare-assam-green-tea",
+    label: "View Product",
     type: "redirect_url",
   },
   {
@@ -239,10 +237,8 @@ const ContentBuilder = () => {
     },
     brand_banner: "",
     redirect_url: {
-      link: {
-        url: "",
-        label: "",
-      },
+      url: "",
+      label: "",
     },
     social_links: {
       social_links: [
@@ -339,6 +335,7 @@ const ContentBuilder = () => {
         paddingX={10}
         overflowX={"hidden"}
         overflowY={"scroll"}
+        pb={"10dvh"}
       >
         <Box position="absolute" top={10} right={4}>
           <AddContentButton onAdd={addContent} contents={contents} />

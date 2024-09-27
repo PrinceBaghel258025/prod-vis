@@ -7,6 +7,7 @@ import {
   Switch,
   Input,
   Textarea,
+  Stack,
 } from "@chakra-ui/react";
 import { DeleteIcon, EditIcon, DragHandleIcon } from "@chakra-ui/icons";
 import MediaPicker from "./MediaPicker";
@@ -21,10 +22,22 @@ const ContentCard = ({
   onUpdate,
   content,
   onDelete,
+  label,
+  url,
   isCarousel = false,
 }) => {
   const inputRef = useRef(null);
   const textContentRef = useRef(null);
+  const labelRef = useRef(null);
+  const urlRef = useRef(null);
+
+  const handleLabelChange = (e) => {
+    onUpdate({ label: e.target.value });
+  };
+
+  const handleUrlChange = (e) => {
+    onUpdate({ url: e.target.value });
+  };
 
   const handleHeaderChange = (e) => {
     onUpdate({ header: e.target.value });
@@ -154,6 +167,45 @@ const ContentCard = ({
           selectedImages={data[0]?.image_url ? [data[0].image_url] : []}
           onImagesChange={handleMediaChange}
         />
+      )}
+
+      {type === "redirect_url" && (
+        <Stack spacing={0}>
+          <Box display="flex" alignItems="start" mb={4}>
+            <Input
+              placeholder="Label"
+              size="sm"
+              ref={labelRef}
+              value={label}
+              onChange={handleLabelChange}
+            />
+            <IconButton
+              aria-label="Edit"
+              icon={<EditIcon />}
+              size="sm"
+              ml={2}
+              onClick={() => labelRef.current.focus()}
+            />
+          </Box>
+
+          <Box display="flex" alignItems="start" mb={4}>
+            <Input
+              placeholder="Enter url"
+              size="sm"
+              ref={urlRef}
+              value={url}
+              onChange={handleUrlChange}
+              type="url"
+            />
+            <IconButton
+              aria-label="Edit"
+              icon={<EditIcon />}
+              size="sm"
+              ml={2}
+              onClick={() => urlRef.current.focus()}
+            />
+          </Box>
+        </Stack>
       )}
     </Box>
   );

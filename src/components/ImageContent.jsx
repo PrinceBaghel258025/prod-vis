@@ -11,8 +11,10 @@ export const ImageContent = ({ media }) => {
     const images = media?.filter((item) => !item.endsWith(".mp4"));
     return { images };
   };
+  // const { images } = splitMedia(media);
+  const images = media;
 
-  const { images } = splitMedia(media);
+  console.log("images: ", media);
 
   const settings = {
     dots: true,
@@ -30,13 +32,18 @@ export const ImageContent = ({ media }) => {
   return (
     <>
       {images?.length === 1 ? (
-        <Image w={"100%"} borderRadius={8} src={images[0]} alt="image" />
+        <Image
+          w={"100%"}
+          borderRadius={8}
+          src={images[0]?.image_url}
+          alt="image"
+        />
       ) : (
         <Stack as={Slider} {...settings} my={3}>
           {images?.map((img) => (
             <Image
-              key={img}
-              src={img}
+              key={id}
+              src={image_url}
               alt="image"
               w={"100%"}
               h={"100%"}

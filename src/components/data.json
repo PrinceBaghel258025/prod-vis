@@ -78,10 +78,8 @@
 
   {
     "type": "redirect_url",
-    "link": {
-      "label": "Click Me!",
-      "url": "https://www.youtube.com/"
-    }
+    "label": "Click Me!",
+    "url": "https://www.youtube.com/"
   },
 
   {

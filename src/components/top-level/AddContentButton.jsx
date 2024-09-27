@@ -62,6 +62,10 @@ const AddContentButton = ({ onAdd, contents }) => {
         <MenuItem onClick={() => onAdd("video_content")} gap={2}>
           2D Video <Tag borderRadius={10}>Sheet</Tag>
         </MenuItem>
+
+        <MenuItem onClick={() => onAdd("redirect_url")} gap={2}>
+          Redirect <Tag borderRadius={10}>Sheet</Tag>
+        </MenuItem>
       </MenuList>
     </Menu>
   );
