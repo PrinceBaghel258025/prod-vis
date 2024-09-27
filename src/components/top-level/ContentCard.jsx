@@ -8,7 +8,7 @@ import {
   Input,
   Textarea,
 } from "@chakra-ui/react";
-import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
+import { DeleteIcon, EditIcon, DragHandleIcon } from "@chakra-ui/icons";
 import MediaPicker from "./MediaPicker";
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
@@ -65,15 +65,24 @@ const ContentCard = ({
     <Box
       ref={setNodeRef}
       style={style}
-      {...attributes}
-      {...listeners}
       borderRadius="2xl"
       boxShadow="lg"
       p={4}
       bg={"white"}
     >
       <HStack justifyContent="space-between" mb={4}>
-        <Heading size="md">{type}</Heading>
+        <HStack>
+          <IconButton
+            {...attributes}
+            {...listeners}
+            aria-label="Drag handle"
+            icon={<DragHandleIcon />}
+            size="sm"
+            cursor="grab"
+            _active={{ cursor: "grabbing" }}
+          />
+          <Heading size="md">{type}</Heading>
+        </HStack>
         <HStack>
           <IconButton
             onClick={onDelete}

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { VStack, Box, Stack } from "@chakra-ui/react";
 import ContentCard from "./ContentCard";
 import AddContentButton from "./AddContentButton";
@@ -33,7 +33,7 @@ const defaultSheetData = [
     text_content: {
       name: "What makes the tea box in your hand so special?",
       content:
-        "Woolah TrueDips is nothing like you have ever tasted or experienced. Woolah TrueDips is the World’s First Bagless Tea, which in the shape of a tablet locks in the most authentic and exotic Assam tea flavours you have ever tasted.",
+        "Woolah TrueDips is nothing like you have ever tasted or experienced. Woolah TrueDips is the World's First Bagless Tea, which in the shape of a tablet locks in the most authentic and exotic Assam tea flavours you have ever tasted.",
     },
   },
   {
@@ -47,7 +47,7 @@ const defaultSheetData = [
     id: 6,
     type: "text_content",
     text_content: {
-      name: "‘Source transparency’ for you, the consumer:",
+      name: "'Source transparency' for you, the consumer:",
       content:
         "In the heart of Woolah is a meticulously curated value chain which provides gainful earning sources to organically grown micro tea farm owners, tea workers, packaging specialists. It has also delegated women workers to participate and earn a livelihood for themselves. \n              Woolah also contributes towards funding quality education for the children of tea workers. The idea is to empower our smallholder tea growers with more visibility, while keeping our sourcing 100% transparent for our consumers!\n              ",
     },
@@ -127,7 +127,7 @@ const datasets = [
             x_axis: 50,
             y_axis: -20,
             z_axis: 50,
-            info: `Only the top tender two leaves and a bud are meticulously plucked by skilled workers perfected over years of working in the farm. Its is also known as the Gold Standard of Tea Plucking. `,
+            info: `Only the top tender two leaves and a bud are meticulously plucked by skilled workers perfected over years of working in the farm. Its is also known as the Gold Standard of Tea Plucking.`,
           },
           {
             x_axis: 50,
@@ -259,11 +259,20 @@ const ContentBuilder = () => {
     }
   };
 
-  console.log("state", contents);
-
   const deleteContent = (id) => {
     setContents(contents.filter((content) => content.id !== id));
   };
+
+  // Separate carousel components and other components
+  const carouselComponents = useMemo(() => 
+    contents.filter(content => ['360_image', '360_video', '2d_image', '2d_video'].includes(content.type)),
+    [contents]
+  );
+
+  const otherComponents = useMemo(() => 
+    contents.filter(content => !['360_image', '360_video', '2d_image', '2d_video'].includes(content.type)),
+    [contents]
+  );
 
   return (
     <Box display="flex" h="100%" bg={"#F5F6FA"}>
@@ -283,12 +292,12 @@ const ContentBuilder = () => {
           collisionDetection={closestCenter}
           onDragEnd={handleDragEnd}
         >
-          <SortableContext
-            items={contents.map(content => content.id)}
-            strategy={verticalListSortingStrategy}
-          >
-            <VStack mt={24} spacing={4} align="stretch">
-              {contents.map((content) => (
+          <VStack mt={24} spacing={4} align="stretch">
+            <SortableContext
+              items={carouselComponents.map(content => content.id)}
+              strategy={verticalListSortingStrategy}
+            >
+              {carouselComponents.map((content) => (
                 <ContentCard
                   key={content.id}
                   {...content}
@@ -296,8 +305,22 @@ const ContentBuilder = () => {
                   onDelete={() => deleteContent(content.id)}
                 />
               ))}
-            </VStack>
-          </SortableContext>
+            </SortableContext>
+
+            <SortableContext
+              items={otherComponents.map(content => content.id)}
+              strategy={verticalListSortingStrategy}
+            >
+              {otherComponents.map((content) => (
+                <ContentCard
+                  key={content.id}
+                  {...content}
+                  onUpdate={(newData) => updateContent(content.id, newData)}
+                  onDelete={() => deleteContent(content.id)}
+                />
+              ))}
+            </SortableContext>
+          </VStack>
         </DndContext>
       </Box>
 

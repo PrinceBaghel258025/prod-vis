@@ -27,6 +27,12 @@ const AddContentButton = ({ onAdd, contents }) => {
         <MenuItem onClick={() => onAdd("360_video")} gap={2}>
           360° Video<Tag borderRadius={10}>Carousel</Tag>
         </MenuItem>
+        <MenuItem onClick={() => onAdd("2d_image")} gap={2}>
+          2d Image<Tag borderRadius={10}>Carousel</Tag>
+        </MenuItem>
+        <MenuItem onClick={() => onAdd("2d_video")} gap={2}>
+          2d Video<Tag borderRadius={10}>Carousel</Tag>
+        </MenuItem>
         <MenuItem onClick={() => onAdd("banner")} gap={2}>
           Banner <Tag borderRadius={10}>Sheet</Tag>
         </MenuItem>
