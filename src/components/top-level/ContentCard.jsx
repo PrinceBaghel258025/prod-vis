@@ -10,6 +10,8 @@ import {
 } from "@chakra-ui/react";
 import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import MediaPicker from "./MediaPicker";
+import { useSortable } from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 
 const ContentCard = ({
   id,
@@ -46,8 +48,30 @@ const ContentCard = ({
 
   const contentTypes = ["header", "text_content"];
 
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+  } = useSortable({ id });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+  };
+
   return (
-    <Box borderRadius="2xl" boxShadow="lg" p={4} bg={"white"}>
+    <Box
+      ref={setNodeRef}
+      style={style}
+      {...attributes}
+      {...listeners}
+      borderRadius="2xl"
+      boxShadow="lg"
+      p={4}
+      bg={"white"}
+    >
       <HStack justifyContent="space-between" mb={4}>
         <Heading size="md">{type}</Heading>
         <HStack>

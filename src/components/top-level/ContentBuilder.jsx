@@ -4,6 +4,8 @@ import ContentCard from "./ContentCard";
 import AddContentButton from "./AddContentButton";
 import { nanoid } from "nanoid";
 import CarouselComponent from "../CarouselComponent";
+import { DndContext, closestCenter } from '@dnd-kit/core';
+import { SortableContext, verticalListSortingStrategy, arrayMove } from '@dnd-kit/sortable';
 
 const defaultSheetData = [
   {
@@ -244,6 +246,19 @@ const ContentBuilder = () => {
     );
   };
 
+  const handleDragEnd = (event) => {
+    const { active, over } = event;
+
+    if (active.id !== over.id) {
+      setContents((items) => {
+        const oldIndex = items.findIndex((item) => item.id === active.id);
+        const newIndex = items.findIndex((item) => item.id === over.id);
+
+        return arrayMove(items, oldIndex, newIndex);
+      });
+    }
+  };
+
   console.log("state", contents);
 
   const deleteContent = (id) => {
@@ -264,16 +279,26 @@ const ContentBuilder = () => {
           <AddContentButton onAdd={addContent} contents={contents} />
         </Box>
 
-        <VStack mt={24} spacing={4} align="stretch">
-          {contents.map((content) => (
-            <ContentCard
-              key={content.id}
-              {...content}
-              onUpdate={(newData) => updateContent(content.id, newData)}
-              onDelete={() => deleteContent(content.id)}
-            />
-          ))}
-        </VStack>
+        <DndContext
+          collisionDetection={closestCenter}
+          onDragEnd={handleDragEnd}
+        >
+          <SortableContext
+            items={contents.map(content => content.id)}
+            strategy={verticalListSortingStrategy}
+          >
+            <VStack mt={24} spacing={4} align="stretch">
+              {contents.map((content) => (
+                <ContentCard
+                  key={content.id}
+                  {...content}
+                  onUpdate={(newData) => updateContent(content.id, newData)}
+                  onDelete={() => deleteContent(content.id)}
+                />
+              ))}
+            </VStack>
+          </SortableContext>
+        </DndContext>
       </Box>
 
       <Stack width="40%" h="100%" alignItems={"center"}>
