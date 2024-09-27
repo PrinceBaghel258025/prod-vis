@@ -1,107 +1,109 @@
 import React, { useState } from "react";
-import { VStack, Box } from "@chakra-ui/react";
+import { VStack, Box, Stack } from "@chakra-ui/react";
 import ContentCard from "./ContentCard";
 import AddContentButton from "./AddContentButton";
 import { nanoid } from "nanoid";
 import CarouselComponent from "../CarouselComponent";
 
-const defaultSheetData = [{
-  id: 2,
-  type: "text_content",
-  text_content: {
-    name: "Wondering what you just saw?",
-    content:
-      "You can see the exact tea garden from where the box in your hand was processed! That is how transparent we are about our minimally hand processed tea!",
-  },
-},
-{
-  id: 3,
-  type: "image_content",
-  image_urls: [
-    "https://360-images-v1.s3.ap-south-1.amazonaws.com/consumer_app/images/Woolah+farm+(1).jpeg",
-    "https://360-images-v1.s3.ap-south-1.amazonaws.com/consumer_app/images/Woolah+farm+(2).jpeg",
-    "https://360-images-v1.s3.ap-south-1.amazonaws.com/consumer_app/images/Woolah+farm+(3).jpeg",
-    "https://360-images-v1.s3.ap-south-1.amazonaws.com/consumer_app/images/Woolah+farm+(5).jpeg",
-  ],
-},
-{
-  id: 4,
-  type: "text_content",
-  text_content: {
-    name: "What makes the tea box in your hand so special?",
-    content:
-      "Woolah TrueDips is nothing like you have ever tasted or experienced. Woolah TrueDips is the World’s First Bagless Tea, which in the shape of a tablet locks in the most authentic and exotic Assam tea flavours you have ever tasted.",
-  },
-},
-{
-  id: 5,
-  type: "video_content",
-  video_urls: [
-    "https://360-images-v1.s3.ap-south-1.amazonaws.com/consumer_app/videos/WOOLAH+TEA+FEATURE_+THE+PLATE+-+upamanyu+borkakoty.mp4",
-  ],
-},
-{
-  id: 6,
-  type: "text_content",
-  text_content: {
-    name: "‘Source transparency’ for you, the consumer:",
-    content:
-      "In the heart of Woolah is a meticulously curated value chain which provides gainful earning sources to organically grown micro tea farm owners, tea workers, packaging specialists. It has also delegated women workers to participate and earn a livelihood for themselves. \n              Woolah also contributes towards funding quality education for the children of tea workers. The idea is to empower our smallholder tea growers with more visibility, while keeping our sourcing 100% transparent for our consumers!\n              ",
-  },
-},
-{
-  id: 7,
-  type: "header",
-  header_text: "Our Team",
-},
-{
-  id: 8,
-  type: "image_content",
-  image_urls: [
-    "https://360-images-v1.s3.ap-south-1.amazonaws.com/consumer_app/images/Woolah+farm+(4).jpeg",
-  ],
-},
-{
-  type: "brand_banner",
-  brand_banner:
-    "https://360-images-v1.s3.ap-south-1.amazonaws.com/Woolah_banner2.webp",
-},
-{
-  link: {
-    url: "https://woolahtea.com/products/rare-assam-green-tea",
-    label: "View Product",
-  },
-  type: "redirect_url",
-},
-{
-  type: "social_links",
-  social_links: [
-    {
-      url: "https://www.youtube.com/@woolahtea",
-      label: "Youtube",
-      thumbnail:
-        "https://360-images-v1.s3.ap-south-1.amazonaws.com/consumer_app/social_icons/youtube.png",
+const defaultSheetData = [
+  {
+    id: 2,
+    type: "text_content",
+    text_content: {
+      name: "Wondering what you just saw?",
+      content:
+        "You can see the exact tea garden from where the box in your hand was processed! That is how transparent we are about our minimally hand processed tea!",
     },
-    {
-      url: "https://www.facebook.com/WoolahTea/",
-      label: "Facebook",
-      thumbnail:
-        "https://360-images-v1.s3.ap-south-1.amazonaws.com/consumer_app/social_icons/facebook.png",
+  },
+  {
+    id: 3,
+    type: "image_content",
+    image_urls: [
+      "https://360-images-v1.s3.ap-south-1.amazonaws.com/consumer_app/images/Woolah+farm+(1).jpeg",
+      "https://360-images-v1.s3.ap-south-1.amazonaws.com/consumer_app/images/Woolah+farm+(2).jpeg",
+      "https://360-images-v1.s3.ap-south-1.amazonaws.com/consumer_app/images/Woolah+farm+(3).jpeg",
+      "https://360-images-v1.s3.ap-south-1.amazonaws.com/consumer_app/images/Woolah+farm+(5).jpeg",
+    ],
+  },
+  {
+    id: 4,
+    type: "text_content",
+    text_content: {
+      name: "What makes the tea box in your hand so special?",
+      content:
+        "Woolah TrueDips is nothing like you have ever tasted or experienced. Woolah TrueDips is the World’s First Bagless Tea, which in the shape of a tablet locks in the most authentic and exotic Assam tea flavours you have ever tasted.",
     },
-    {
-      url: "https://www.instagram.com/be_woolah/",
-      label: "Instagram",
-      thumbnail:
-        "https://360-images-v1.s3.ap-south-1.amazonaws.com/consumer_app/social_icons/instagram.png",
+  },
+  {
+    id: 5,
+    type: "video_content",
+    video_urls: [
+      "https://360-images-v1.s3.ap-south-1.amazonaws.com/consumer_app/videos/WOOLAH+TEA+FEATURE_+THE+PLATE+-+upamanyu+borkakoty.mp4",
+    ],
+  },
+  {
+    id: 6,
+    type: "text_content",
+    text_content: {
+      name: "‘Source transparency’ for you, the consumer:",
+      content:
+        "In the heart of Woolah is a meticulously curated value chain which provides gainful earning sources to organically grown micro tea farm owners, tea workers, packaging specialists. It has also delegated women workers to participate and earn a livelihood for themselves. \n              Woolah also contributes towards funding quality education for the children of tea workers. The idea is to empower our smallholder tea growers with more visibility, while keeping our sourcing 100% transparent for our consumers!\n              ",
     },
-  ],
-}]
+  },
+  {
+    id: 7,
+    type: "header",
+    header_text: "Our Team",
+  },
+  {
+    id: 8,
+    type: "image_content",
+    image_urls: [
+      "https://360-images-v1.s3.ap-south-1.amazonaws.com/consumer_app/images/Woolah+farm+(4).jpeg",
+    ],
+  },
+  {
+    type: "brand_banner",
+    brand_banner:
+      "https://360-images-v1.s3.ap-south-1.amazonaws.com/Woolah_banner2.webp",
+  },
+  {
+    link: {
+      url: "https://woolahtea.com/products/rare-assam-green-tea",
+      label: "View Product",
+    },
+    type: "redirect_url",
+  },
+  {
+    type: "social_links",
+    social_links: [
+      {
+        url: "https://www.youtube.com/@woolahtea",
+        label: "Youtube",
+        thumbnail:
+          "https://360-images-v1.s3.ap-south-1.amazonaws.com/consumer_app/social_icons/youtube.png",
+      },
+      {
+        url: "https://www.facebook.com/WoolahTea/",
+        label: "Facebook",
+        thumbnail:
+          "https://360-images-v1.s3.ap-south-1.amazonaws.com/consumer_app/social_icons/facebook.png",
+      },
+      {
+        url: "https://www.instagram.com/be_woolah/",
+        label: "Instagram",
+        thumbnail:
+          "https://360-images-v1.s3.ap-south-1.amazonaws.com/consumer_app/social_icons/instagram.png",
+      },
+    ],
+  },
+];
 
 const datasets = [
   {
     id: 1,
     type: "360_video",
-    header: 'Plucking',
+    header: "Plucking",
     data: [
       {
         id: 1,
@@ -134,14 +136,14 @@ const datasets = [
           },
         ],
       },
-      ...defaultSheetData
+      ...defaultSheetData,
     ],
   },
 
   {
     id: 2,
     type: "2d_video",
-    header: 'Withering',
+    header: "Withering",
     data: [
       {
         id: 1,
@@ -154,14 +156,14 @@ const datasets = [
           info: "Unlike mass-produced commodity teas, we follow traditional and natural withering processes in small batches. It helps in controlled dehydration or moisture reduction of the leaves and helps in flavour development. Fresh oxygen comes in contact with the leaves to do the magic.",
         },
       },
-      ...defaultSheetData
+      ...defaultSheetData,
     ],
   },
 
   {
     id: 3,
     type: "360_video",
-    header: 'Tea Crafting',
+    header: "Tea Crafting",
     data: [
       {
         id: 1,
@@ -177,14 +179,14 @@ const datasets = [
           },
         ],
       },
-      ...defaultSheetData
+      ...defaultSheetData,
     ],
   },
 
   {
     id: 4,
     type: "360_video",
-    header: 'Sachet Making',
+    header: "Sachet Making",
     data: [
       {
         id: 1,
@@ -192,59 +194,76 @@ const datasets = [
         image_url:
           "https://360-images-v1.s3.ap-south-1.amazonaws.com/Sachet_packing.mp4",
       },
-      ...defaultSheetData
+      ...defaultSheetData,
     ],
   },
 ];
 const datasets2 = [
   {
-    "id": "dTcuL2iE_wS3NnO9EhYjL",
-    "type": "360_Image",
-    "header": "",
-    "data": [
+    id: "dTcuL2iE_wS3NnO9EhYjL",
+    type: "360_Image",
+    header: "",
+    data: [
       {
-        "id": "Der7d5eSBAjWC8jEFNG6X",
-        "type": "360_Image",
-        "image_url": "blob:http://localhost:5173/155af97b-2477-457f-b4ed-3341d3b8c3e9"
-      }
-    ]
-  }
-]
+        id: "Der7d5eSBAjWC8jEFNG6X",
+        type: "360_Image",
+        image_url:
+          "blob:http://localhost:5173/155af97b-2477-457f-b4ed-3341d3b8c3e9",
+      },
+    ],
+  },
+];
 
 const ContentBuilder = () => {
   const [contents, setContents] = useState([]);
 
   const addContent = (type) => {
-    setContents([...contents, {
-      id: nanoid(),
-      type,
-      header: "",
-      data: [{
+    setContents([
+      ...contents,
+      {
         id: nanoid(),
         type,
-        image_url: "",
-      }]
-    }]);
+        header: "",
+        text_content: "",
+        data: [
+          {
+            id: nanoid(),
+            type,
+            image_url: "",
+          },
+        ],
+      },
+    ]);
   };
 
   const updateContent = (id, newData) => {
-    setContents(contents.map(content =>
-      content.id === id ? { ...content, ...newData } : content
-    ));
+    setContents(
+      contents.map((content) =>
+        content.id === id ? { ...content, ...newData } : content
+      )
+    );
   };
 
-  console.log("state", contents)
+  console.log("state", contents);
 
   const deleteContent = (id) => {
-    setContents(contents.filter(content => content.id !== id));
+    setContents(contents.filter((content) => content.id !== id));
   };
 
   return (
-    <Box display="flex" h="100%">
-      <Box width="50%" position="relative" borderWidth={2} borderColor="red" h="100%">
-        <Box position="absolute" top={0} right={4}>
-          <AddContentButton onAdd={addContent} />
+    <Box display="flex" h="100%" bg={"#F5F6FA"}>
+      <Box
+        width="60%"
+        position="relative"
+        h="100dvh"
+        padding={10}
+        overflowX={"hidden"}
+        overflowY={"scroll"}
+      >
+        <Box position="absolute" top={10} right={4}>
+          <AddContentButton onAdd={addContent} contents={contents} />
         </Box>
+
         <VStack mt={24} spacing={4} align="stretch">
           {contents.map((content) => (
             <ContentCard
@@ -256,9 +275,23 @@ const ContentBuilder = () => {
           ))}
         </VStack>
       </Box>
-      <Box width="50%" borderWidth={2} borderColor="orange" h="100%">
-        <CarouselComponent productData={contents} defaultSheetData={defaultSheetData} />
-      </Box>
+
+      <Stack width="40%" h="100%" alignItems={"center"}>
+        <Stack
+          w={"292px"}
+          h={"603px"}
+          mt={50}
+          borderWidth={5}
+          borderColor={"black"}
+          borderRadius={50}
+          overflow={"hidden"}
+        >
+          <CarouselComponent
+            productData={contents}
+            defaultSheetData={defaultSheetData}
+          />
+        </Stack>
+      </Stack>
     </Box>
   );
 };

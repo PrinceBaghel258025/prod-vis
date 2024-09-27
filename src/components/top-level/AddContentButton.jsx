@@ -1,17 +1,15 @@
-/* eslint-disable react/prop-types */
-import React, { useState } from 'react';
+import React from "react";
 import {
   IconButton,
   Menu,
   MenuButton,
   MenuList,
   MenuItem,
-} from '@chakra-ui/react';
-import { AddIcon } from '@chakra-ui/icons';
+  Tag,
+} from "@chakra-ui/react";
+import { AddIcon } from "@chakra-ui/icons";
 
-
-
-const AddContentButton= ({ onAdd }) => {
+const AddContentButton = ({ onAdd, contents }) => {
   return (
     <Menu>
       <MenuButton
@@ -23,10 +21,24 @@ const AddContentButton= ({ onAdd }) => {
         isRound
       />
       <MenuList>
-        <MenuItem onClick={() => onAdd('360_image')}>360° Image</MenuItem>
-        <MenuItem onClick={() => onAdd('360_video')}>360° Video</MenuItem>
-        <MenuItem onClick={() => onAdd('Header')}>Header</MenuItem>
-        <MenuItem onClick={() => onAdd('Media Content')}>Media Content</MenuItem>
+        <MenuItem onClick={() => onAdd("360_image")} gap={2}>
+          360° Image<Tag borderRadius={10}>Carousel</Tag>
+        </MenuItem>
+        <MenuItem onClick={() => onAdd("360_video")} gap={2}>
+          360° Video<Tag borderRadius={10}>Carousel</Tag>
+        </MenuItem>
+        <MenuItem onClick={() => onAdd("banner")} gap={2}>
+          Banner <Tag borderRadius={10}>Sheet</Tag>
+        </MenuItem>
+        <MenuItem onClick={() => onAdd("header")} gap={2}>
+          Header <Tag borderRadius={10}>Sheet</Tag>
+        </MenuItem>
+        <MenuItem onClick={() => onAdd("text_content")} gap={2}>
+          Text Content <Tag borderRadius={10}>Sheet</Tag>
+        </MenuItem>
+        <MenuItem onClick={() => onAdd("media_content")} gap={2}>
+          Media Content <Tag borderRadius={10}>Sheet</Tag>
+        </MenuItem>
       </MenuList>
     </Menu>
   );
