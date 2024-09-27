@@ -1,11 +1,15 @@
 import React, { useState, useMemo } from "react";
-import { VStack, Box, Stack } from "@chakra-ui/react";
+import { VStack, Box, Stack, Text, Tag } from "@chakra-ui/react";
 import ContentCard from "./ContentCard";
 import AddContentButton from "./AddContentButton";
 import { nanoid } from "nanoid";
 import CarouselComponent from "../CarouselComponent";
-import { DndContext, closestCenter } from '@dnd-kit/core';
-import { SortableContext, verticalListSortingStrategy, arrayMove } from '@dnd-kit/sortable';
+import { DndContext, closestCenter } from "@dnd-kit/core";
+import {
+  SortableContext,
+  verticalListSortingStrategy,
+  arrayMove,
+} from "@dnd-kit/sortable";
 
 const defaultSheetData = [
   {
@@ -264,13 +268,24 @@ const ContentBuilder = () => {
   };
 
   // Separate carousel components and other components
-  const carouselComponents = useMemo(() => 
-    contents.filter(content => ['360_image', '360_video', '2d_image', '2d_video'].includes(content.type)),
+  const carouselComponents = useMemo(
+    () =>
+      contents.filter((content) =>
+        ["360_image", "360_video", "2d_image", "2d_video"].includes(
+          content.type
+        )
+      ),
     [contents]
   );
 
-  const otherComponents = useMemo(() => 
-    contents.filter(content => !['360_image', '360_video', '2d_image', '2d_video'].includes(content.type)),
+  const otherComponents = useMemo(
+    () =>
+      contents.filter(
+        (content) =>
+          !["360_image", "360_video", "2d_image", "2d_video"].includes(
+            content.type
+          )
+      ),
     [contents]
   );
 
@@ -280,7 +295,7 @@ const ContentBuilder = () => {
         width="60%"
         position="relative"
         h="100dvh"
-        padding={10}
+        paddingX={10}
         overflowX={"hidden"}
         overflowY={"scroll"}
       >
@@ -294,23 +309,54 @@ const ContentBuilder = () => {
         >
           <VStack mt={24} spacing={4} align="stretch">
             <SortableContext
-              items={carouselComponents.map(content => content.id)}
+              items={carouselComponents.map((content) => content.id)}
               strategy={verticalListSortingStrategy}
             >
+              {carouselComponents?.length > 0 && (
+                <Tag
+                  mb={0}
+                  alignSelf={"center"}
+                  fontSize={18}
+                  fontWeight={"semibold"}
+                  bg={"white"}
+                  px={4}
+                  py={2}
+                  borderRadius={50}
+                  boxShadow="lg"
+                >
+                  Carousel Section
+                </Tag>
+              )}
               {carouselComponents.map((content) => (
                 <ContentCard
                   key={content.id}
                   {...content}
                   onUpdate={(newData) => updateContent(content.id, newData)}
                   onDelete={() => deleteContent(content.id)}
+                  isCarousel
                 />
               ))}
             </SortableContext>
 
             <SortableContext
-              items={otherComponents.map(content => content.id)}
+              items={otherComponents.map((content) => content.id)}
               strategy={verticalListSortingStrategy}
             >
+              {otherComponents?.length > 0 && (
+                <Tag
+                  mb={0}
+                  alignSelf={"center"}
+                  fontSize={18}
+                  fontWeight={"semibold"}
+                  bg={"white"}
+                  px={4}
+                  py={2}
+                  borderRadius={50}
+                  boxShadow="lg"
+                >
+                  Bottom Sheet Section
+                </Tag>
+              )}
               {otherComponents.map((content) => (
                 <ContentCard
                   key={content.id}

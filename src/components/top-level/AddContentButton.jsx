@@ -10,6 +10,8 @@ import {
 import { AddIcon } from "@chakra-ui/icons";
 
 const AddContentButton = ({ onAdd, contents }) => {
+  const removeBtn = contents?.some((btn) => btn?.type?.includes("banner"));
+
   return (
     <Menu>
       <MenuButton
@@ -24,24 +26,33 @@ const AddContentButton = ({ onAdd, contents }) => {
         <MenuItem onClick={() => onAdd("360_image")} gap={2}>
           360° Image<Tag borderRadius={10}>Carousel</Tag>
         </MenuItem>
+
         <MenuItem onClick={() => onAdd("360_video")} gap={2}>
           360° Video<Tag borderRadius={10}>Carousel</Tag>
         </MenuItem>
+
         <MenuItem onClick={() => onAdd("2d_image")} gap={2}>
           2d Image<Tag borderRadius={10}>Carousel</Tag>
         </MenuItem>
+
         <MenuItem onClick={() => onAdd("2d_video")} gap={2}>
           2d Video<Tag borderRadius={10}>Carousel</Tag>
         </MenuItem>
-        <MenuItem onClick={() => onAdd("banner")} gap={2}>
-          Banner <Tag borderRadius={10}>Sheet</Tag>
-        </MenuItem>
+
+        {!removeBtn && (
+          <MenuItem onClick={() => onAdd("banner")} gap={2}>
+            Banner <Tag borderRadius={10}>Sheet</Tag>
+          </MenuItem>
+        )}
+
         <MenuItem onClick={() => onAdd("header")} gap={2}>
           Header <Tag borderRadius={10}>Sheet</Tag>
         </MenuItem>
+
         <MenuItem onClick={() => onAdd("text_content")} gap={2}>
           Text Content <Tag borderRadius={10}>Sheet</Tag>
         </MenuItem>
+
         <MenuItem onClick={() => onAdd("media_content")} gap={2}>
           Media Content <Tag borderRadius={10}>Sheet</Tag>
         </MenuItem>

@@ -10,8 +10,8 @@ import {
 } from "@chakra-ui/react";
 import { DeleteIcon, EditIcon, DragHandleIcon } from "@chakra-ui/icons";
 import MediaPicker from "./MediaPicker";
-import { useSortable } from '@dnd-kit/sortable';
-import { CSS } from '@dnd-kit/utilities';
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 
 const ContentCard = ({
   id,
@@ -21,6 +21,7 @@ const ContentCard = ({
   onUpdate,
   text_content,
   onDelete,
+  isCarousel = false,
 }) => {
   const inputRef = useRef(null);
   const textContentRef = useRef(null);
@@ -44,17 +45,19 @@ const ContentCard = ({
     });
   };
 
-  const mediaTypes = ["360_image", "360_video", "media_content", "banner"];
+  const mediaTypes = [
+    "360_image",
+    "360_video",
+    "media_content",
+    "banner",
+    "2d_image",
+    "2d_video",
+  ];
 
   const contentTypes = ["header", "text_content"];
 
-  const {
-    attributes,
-    listeners,
-    setNodeRef,
-    transform,
-    transition,
-  } = useSortable({ id });
+  const { attributes, listeners, setNodeRef, transform, transition } =
+    useSortable({ id });
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -69,6 +72,8 @@ const ContentCard = ({
       boxShadow="lg"
       p={4}
       bg={"white"}
+      borderLeftWidth={5}
+      borderLeftColor={isCarousel ? "lightblue" : "orange"}
     >
       <HStack justifyContent="space-between" mb={4}>
         <HStack>
@@ -80,6 +85,7 @@ const ContentCard = ({
             size="sm"
             cursor="grab"
             _active={{ cursor: "grabbing" }}
+            bg={"transparent"}
           />
           <Heading size="md">{type}</Heading>
         </HStack>
