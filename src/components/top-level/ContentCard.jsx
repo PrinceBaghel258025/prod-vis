@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import {
   Box,
   IconButton,
@@ -68,9 +68,8 @@ const ContentCard = ({
     });
   };
 
-
   const handleMultipleMediaChange = (newMedia, type) => {
-    console.log("new media", newMedia)
+    console.log("new media", newMedia);
     onUpdate({
       data: [
         ...data,
@@ -82,13 +81,12 @@ const ContentCard = ({
       ],
     });
   };
-  
+
   const handleChangeOrder = (newOrder) => {
     onUpdate({
       data: newOrder,
     });
   };
-
 
   const handleDeleteImage = (id) => {
     onUpdate({
@@ -105,10 +103,7 @@ const ContentCard = ({
     "image_content",
     "video_content",
   ];
-  const multipleMediaTypes = [
-    "image_content",
-    "video_content",
-  ];
+  const multipleMediaTypes = ["image_content", "video_content"];
 
   const contentTypes = [
     "header",
@@ -207,24 +202,25 @@ const ContentCard = ({
         </Box>
       )}
 
-      {mediaTypes.includes(type) ?
-        multipleMediaTypes.includes(type) ?
-          (
-            <MultipleMediaPicker
-              type={type}
-              dataList={data}
-              onImagesChange={(newMedia) => handleMultipleMediaChange(newMedia, type)}
-              onDeleteImage={handleDeleteImage}
-              changeOrder={handleChangeOrder}
-            />
-          ) :
-          (
-            <MediaPicker
-              type={type}
-              selectedImages={data[0]?.image_url ? [data[0].image_url] : []}
-              onImagesChange={handleMediaChange}
-            />
-          ) : null}
+      {mediaTypes.includes(type) ? (
+        multipleMediaTypes.includes(type) ? (
+          <MultipleMediaPicker
+            type={type}
+            dataList={data}
+            onImagesChange={(newMedia) =>
+              handleMultipleMediaChange(newMedia, type)
+            }
+            onDeleteImage={handleDeleteImage}
+            changeOrder={handleChangeOrder}
+          />
+        ) : (
+          <MediaPicker
+            type={type}
+            selectedImages={data[0]?.image_url ? [data[0].image_url] : []}
+            onImagesChange={handleMediaChange}
+          />
+        )
+      ) : null}
 
       {type === "redirect_url" && ( //TODO: check if url is correct through regex
         <Stack spacing={0}>
@@ -266,74 +262,136 @@ const ContentCard = ({
       )}
 
       {type === "social_links" && ( //TODO: make a component for this
-        <Stack mx={10} my={5}>
-          <HStack
-            bg={"#EAEAEA"}
-            padding={3}
-            w={"fit-content"}
-            borderRadius={50}
-            spacing={5}
-          >
-            <SocialIcon icon={FaYoutube} color={"#ce1312"} />
-            <SocialIcon icon={FaAmazon} color={"black"} />
-            <SocialIcon icon={FaFacebookSquare} color={"#4460A0"} />
-            <SocialIcon icon={FaPinterest} color={"#cc2127"} />
-            <SocialIcon icon={FaShopify} color={"#81bf37"} />
-            <SocialIcon icon={IoLogoInstagram} color={"#d62da6"} />
-          </HStack>
-
-          <Stack mt={3}>
-            <HStack>
-              <Icon
-                as={FaYoutube}
-                color={"#ce1312"}
-                fontSize={35}
-                bg={"white"}
-                p={1}
-                borderRadius={"100%"}
-                cursor={"pointer"}
-                border={"1px solid #E2E8F0"}
-              />
-              <Input
-                placeholder="Youtube"
-                size="sm"
-                ref={inputRef}
-                value={header}
-                onChange={() => { }}
-                borderRadius={50}
-              />
-              <IconButton
-                aria-label="Edit"
-                icon={<EditIcon />}
-                size="sm"
-                onClick={() => textContentRef.current.focus()}
-              />
-              <IconButton
-                onClick={() => { }}
-                aria-label="Delete"
-                icon={<DeleteIcon />}
-                size="sm"
-                borderRadius={5}
-              />
-            </HStack>
-          </Stack>
-        </Stack>
+        <SocialLinks />
       )}
     </Box>
   );
 };
 
-const SocialIcon = ({ icon, color }) => {
+const initialSocialIcons = [
+  { icon: FaYoutube, color: "#ce1312", name: "Youtube" },
+  { icon: FaAmazon, color: "black", name: "Amazon" },
+  { icon: FaFacebookSquare, color: "#4460A0", name: "Facebook" },
+  { icon: FaPinterest, color: "#cc2127", name: "Pinterest" },
+  { icon: FaShopify, color: "#81bf37", name: "Shopify" },
+  { icon: IoLogoInstagram, color: "#d62da6", name: "Instagram" },
+];
+
+const SocialIcon = ({ icon: IconComponent, color, onClick }) => (
+  <IconComponent
+    color={color}
+    fontSize={24}
+    cursor="pointer"
+    onClick={onClick}
+  />
+);
+
+const SocialLinks = () => {
+  const [availableIcons, setAvailableIcons] = useState(initialSocialIcons);
+  const [selectedIcons, setSelectedIcons] = useState([]);
+  const inputRefs = useRef({});
+
+  console.log("selectedIcons: ", selectedIcons);
+
+  const addIcon = (icon) => {
+    setSelectedIcons([
+      ...selectedIcons,
+      {
+        label: icon.name.toLowerCase(),
+        url: "",
+        icon: icon.icon,
+        color: icon.color,
+      },
+    ]);
+    setAvailableIcons(availableIcons.filter((i) => i.name !== icon.name));
+  };
+
+  const removeIcon = (iconLabel) => {
+    const removedIcon = selectedIcons.find((i) => i.label === iconLabel);
+    setSelectedIcons(selectedIcons.filter((i) => i.label !== iconLabel));
+    setAvailableIcons(
+      [
+        ...availableIcons,
+        {
+          icon: removedIcon.icon,
+          color: removedIcon.color,
+          name: iconLabel.charAt(0).toUpperCase() + iconLabel.slice(1),
+        },
+      ].sort(
+        (a, b) =>
+          initialSocialIcons.findIndex((i) => i.name === a.name) -
+          initialSocialIcons.findIndex((i) => i.name === b.name)
+      )
+    );
+  };
+
+  const updateIconUrl = (iconLabel, url) => {
+    setSelectedIcons(
+      selectedIcons.map((icon) =>
+        icon?.label === iconLabel ? { ...icon, url } : icon
+      )
+    );
+  };
+
   return (
-    <Icon
-      as={icon}
-      color={color}
-      fontSize={50}
-      bg={"white"}
-      p={1}
-      borderRadius={"100%"}
-      cursor={"pointer"}
-    />
+    <Stack mx={10} my={5}>
+      {availableIcons?.length !== 0 && (
+        <HStack
+          bg={"#EAEAEA"}
+          padding={3}
+          w={"fit-content"}
+          borderRadius={50}
+          spacing={5}
+        >
+          {availableIcons?.map((icon) => (
+            <SocialIcon
+              key={icon?.name}
+              icon={icon?.icon}
+              color={icon?.color}
+              onClick={() => addIcon(icon)}
+            />
+          ))}
+        </HStack>
+      )}
+
+      <Stack mt={3} spacing={3}>
+        {selectedIcons?.map((icon) => (
+          <HStack key={icon?.label}>
+            <Icon
+              as={icon?.icon}
+              color={icon?.color}
+              fontSize={35}
+              bg={"white"}
+              p={1}
+              borderRadius={"100%"}
+              cursor={"pointer"}
+              border={"1px solid #E2E8F0"}
+            />
+            <Input
+              placeholder={icon?.label}
+              size="sm"
+              ref={(el) => (inputRefs.current[icon?.label] = el)}
+              value={icon?.url}
+              onChange={(e) => updateIconUrl(icon?.label, e.target.value)}
+              borderRadius={50}
+            />
+            <IconButton
+              aria-label="Edit"
+              icon={<EditIcon />}
+              size="sm"
+              onClick={() => inputRefs.current[icon?.label].focus()}
+            />
+            <IconButton
+              onClick={() => removeIcon(icon?.label)}
+              aria-label="Delete"
+              icon={<DeleteIcon />}
+              size="sm"
+              borderRadius={5}
+            />
+          </HStack>
+        ))}
+      </Stack>
+    </Stack>
   );
 };
 
