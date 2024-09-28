@@ -82,6 +82,14 @@ const ContentCard = ({
       ],
     });
   };
+  
+  const handleChangeOrder = (newOrder) => {
+    onUpdate({
+      data: newOrder,
+    });
+  };
+
+
   const handleDeleteImage = (id) => {
     onUpdate({
       data: data.filter((image) => image.id !== id),
@@ -207,6 +215,7 @@ const ContentCard = ({
               dataList={data}
               onImagesChange={(newMedia) => handleMultipleMediaChange(newMedia, type)}
               onDeleteImage={handleDeleteImage}
+              changeOrder={handleChangeOrder}
             />
           ) :
           (
