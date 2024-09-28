@@ -56,6 +56,8 @@ const CarouselComponent = ({ productData, defaultSheetData }) => {
   return (
     <Stack position={"relative"} overflow={"hidden"}>
       <Slider ref={sliderRef} {...settings}>
+        {productData?.length === 0 && <Stack h={"80dvh"} />}
+
         {productData?.map((dataset) => {
           return (
             <Stack key={dataset.id}>
