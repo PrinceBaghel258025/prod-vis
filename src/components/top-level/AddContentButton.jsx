@@ -9,7 +9,15 @@ import {
 } from "@chakra-ui/react";
 import { AddIcon } from "@chakra-ui/icons";
 
-const AddContentButton = ({ onAdd, contents }) => {
+const AddContentButton = ({ onAdd, sheetData }) => {
+  const removeBrandBtn = sheetData?.some((btn) =>
+    btn?.type?.includes("brand_banner")
+  );
+
+  const removeSocialBtn = sheetData?.some((btn) =>
+    btn?.type?.includes("social_links")
+  );
+
   return (
     <Menu>
       <MenuButton
@@ -21,24 +29,53 @@ const AddContentButton = ({ onAdd, contents }) => {
         isRound
       />
       <MenuList>
-        <MenuItem onClick={() => onAdd("360_image")} gap={2}>
+        <MenuItem onClick={() => onAdd("carousel_360_image")} gap={2}>
           360° Image<Tag borderRadius={10}>Carousel</Tag>
         </MenuItem>
-        <MenuItem onClick={() => onAdd("360_video")} gap={2}>
+
+        <MenuItem onClick={() => onAdd("carousel_360_video")} gap={2}>
           360° Video<Tag borderRadius={10}>Carousel</Tag>
         </MenuItem>
-        <MenuItem onClick={() => onAdd("banner")} gap={2}>
-          Banner <Tag borderRadius={10}>Sheet</Tag>
+
+        <MenuItem onClick={() => onAdd("carousel_2d_image")} gap={2}>
+          2d Image<Tag borderRadius={10}>Carousel</Tag>
         </MenuItem>
+
+        <MenuItem onClick={() => onAdd("carousel_2d_video")} gap={2}>
+          2d Video<Tag borderRadius={10}>Carousel</Tag>
+        </MenuItem>
+
+        {!removeBrandBtn && (
+          <MenuItem onClick={() => onAdd("brand_banner")} gap={2}>
+            Banner <Tag borderRadius={10}>Sheet</Tag>
+          </MenuItem>
+        )}
+
         <MenuItem onClick={() => onAdd("header")} gap={2}>
           Header <Tag borderRadius={10}>Sheet</Tag>
         </MenuItem>
+
         <MenuItem onClick={() => onAdd("text_content")} gap={2}>
           Text Content <Tag borderRadius={10}>Sheet</Tag>
         </MenuItem>
-        <MenuItem onClick={() => onAdd("media_content")} gap={2}>
-          Media Content <Tag borderRadius={10}>Sheet</Tag>
+
+        <MenuItem onClick={() => onAdd("image_content")} gap={2}>
+          2D Image <Tag borderRadius={10}>Sheet</Tag>
         </MenuItem>
+
+        <MenuItem onClick={() => onAdd("video_content")} gap={2}>
+          2D Video <Tag borderRadius={10}>Sheet</Tag>
+        </MenuItem>
+
+        <MenuItem onClick={() => onAdd("redirect_url")} gap={2}>
+          Redirect Button <Tag borderRadius={10}>Sheet</Tag>
+        </MenuItem>
+
+        {!removeSocialBtn && (
+          <MenuItem onClick={() => onAdd("social_links")} gap={2}>
+            Social Links <Tag borderRadius={10}>Sheet</Tag>
+          </MenuItem>
+        )}
       </MenuList>
     </Menu>
   );

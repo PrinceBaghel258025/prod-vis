@@ -13,7 +13,7 @@ import { useDropzone } from "react-dropzone";
 
 const MediaPicker = ({ type, selectedImages, onImagesChange }) => {
   const onDrop = useCallback(
-    (acceptedFiles: File[]) => {
+    (acceptedFiles) => {
       const newImages = acceptedFiles
         .filter(
           (file) =>
@@ -25,23 +25,29 @@ const MediaPicker = ({ type, selectedImages, onImagesChange }) => {
     [selectedImages, onImagesChange]
   );
 
+  const image_types = [
+    "carousel_360_image",
+    "brand_banner",
+    "carousel_2d_image",
+    "image_content",
+  ];
+
   const { getRootProps, getInputProps, open } = useDropzone({
     onDrop,
-    accept:
-      type === "360_image"
-        ? {
-            "image/jpeg": [],
-            "image/png": [],
-          }
-        : {
-            "video/mp4": [],
-            "video/mov": [],
-          },
+    accept: image_types?.some((t) => t === type)
+      ? {
+          "image/jpeg": [],
+          "image/png": [],
+        }
+      : {
+          "video/mp4": [],
+          "video/mov": [],
+        },
     noClick: true,
     noKeyboard: true,
   });
 
-  const removeImage = (index: number) => {
+  const removeImage = (index) => {
     onImagesChange(selectedImages.filter((_, i) => i !== index));
   };
 
@@ -52,11 +58,19 @@ const MediaPicker = ({ type, selectedImages, onImagesChange }) => {
         <SimpleGrid columns={[1, 2, 3]} spacing={4}>
           {selectedImages.map((image, index) => (
             <Box key={index} position="relative">
-              <Image
-                src={image}
-                alt={`Selected media ${index + 1}`}
-                borderRadius="md"
-              />
+              {image_types?.some((t) => t === type) ? (
+                <Image
+                  src={image}
+                  alt={`Selected media ${index + 1}`}
+                  borderRadius="md"
+                />
+              ) : (
+                <video
+                  src={image}
+                  alt={`Selected media ${index + 1}`}
+                  style={{ borderRadius: "10px" }}
+                />
+              )}
               <IconButton
                 aria-label="Remove image"
                 icon={<CloseIcon />}
@@ -86,14 +100,6 @@ const MediaPicker = ({ type, selectedImages, onImagesChange }) => {
           </Text>
         </VStack>
       )}
-      <HStack mt={4} justifyContent="flex-end">
-        <IconButton
-          aria-label="Add more"
-          icon={<AddIcon />}
-          size="sm"
-          onClick={open}
-        />
-      </HStack>
     </Box>
   );
 };

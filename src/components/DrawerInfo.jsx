@@ -22,33 +22,38 @@ export const DrawerInfo = ({ data }) => {
         },
       }}
       justifyContent={"space-between"}
-      mt={"6.5rem"}
-      spacing={5}
+      mt={"4.5rem"}
+      spacing={1}
     >
       {data?.length > 0
         ? data?.map((info) => {
             switch (info?.type) {
               case "header":
-                return (
-                  <Header key={info?.id} headerTitle={info?.header_text} />
-                );
+                return <Header key={info?.id} headerTitle={info?.header} />;
               case "text_content":
                 return (
                   <TextContent
                     key={info?.id}
-                    textContent={info?.text_content}
+                    header={info?.header}
+                    content={info?.content}
                   />
                 );
               case "image_content":
-                return <ImageContent key={info?.id} media={info?.image_urls} />;
+                return (
+                  <ImageContent
+                    key={info?.id}
+                    //  media={info?.image_urls}
+                    media={info?.data}
+                  />
+                );
               case "partners":
                 return (
                   <BusinessPartner key={info?.id} partner={info?.partners} />
                 );
               case "video_content":
-                return <VideoContent key={info?.id} media={info?.video_urls} />;
+                return <VideoContent key={info?.id} media={info?.data} />;
               case "redirect_url":
-                return <RedirectButton key={info?.id} link={info?.link} />;
+                return <RedirectButton key={info?.id} link={info} />;
               case "social_links":
                 return (
                   <SocialLinks

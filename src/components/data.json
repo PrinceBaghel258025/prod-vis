@@ -5,7 +5,7 @@
     "image_url": "https://360-images-v1.s3.ap-south-1.amazonaws.com/1.jpg"
   },
 
-  { "id": 2, "type": "header", "header_text": "This is a header" },
+  { "id": 2, "type": "header", "header": "This is a header" },
 
   {
     "id": 3,
@@ -21,7 +21,7 @@
     "id": 4,
     "type": "text_content",
     "text_content": {
-      "name": "Text Content 1",
+      "header": "Text Content 1",
       "content": "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Minima quam voluptatibus recusandae ab architecto voluptatum, atque dicta sit assumenda? Aperiam aliquid perspiciatis expedita a recusandae ab error quae modi maiores."
     }
   },
@@ -31,27 +31,27 @@
     "type": "partners",
     "partners": [
       {
-        "name": "Ramu",
+        "header": "Ramu",
         "image_url": "https://img.freepik.com/free-photo/transparent-leaf-with-orange-backlight_23-2148239756.jpg?t=st=1711361074~exp=1711364674~hmac=6af2cd64f6aebc9910a7d4e74cfb9a5fa569eca9e23530d820ee00caa929e149&w=740"
       },
       {
-        "name": "Ramu",
+        "header": "Ramu",
         "image_url": "https://img.freepik.com/free-photo/transparent-leaf-with-orange-backlight_23-2148239756.jpg?t=st=1711361074~exp=1711364674~hmac=6af2cd64f6aebc9910a7d4e74cfb9a5fa569eca9e23530d820ee00caa929e149&w=740"
       },
       {
-        "name": "Ramu",
+        "header": "Ramu",
         "image_url": "https://img.freepik.com/free-photo/transparent-leaf-with-orange-backlight_23-2148239756.jpg?t=st=1711361074~exp=1711364674~hmac=6af2cd64f6aebc9910a7d4e74cfb9a5fa569eca9e23530d820ee00caa929e149&w=740"
       },
       {
-        "name": "Ramu",
+        "header": "Ramu",
         "image_url": "https://img.freepik.com/free-photo/transparent-leaf-with-orange-backlight_23-2148239756.jpg?t=st=1711361074~exp=1711364674~hmac=6af2cd64f6aebc9910a7d4e74cfb9a5fa569eca9e23530d820ee00caa929e149&w=740"
       },
       {
-        "name": "Ramu",
+        "header": "Ramu",
         "image_url": "https://img.freepik.com/free-photo/transparent-leaf-with-orange-backlight_23-2148239756.jpg?t=st=1711361074~exp=1711364674~hmac=6af2cd64f6aebc9910a7d4e74cfb9a5fa569eca9e23530d820ee00caa929e149&w=740"
       },
       {
-        "name": "Ramu",
+        "header": "Ramu",
         "image_url": "https://img.freepik.com/free-photo/transparent-leaf-with-orange-backlight_23-2148239756.jpg?t=st=1711361074~exp=1711364674~hmac=6af2cd64f6aebc9910a7d4e74cfb9a5fa569eca9e23530d820ee00caa929e149&w=740"
       }
     ]
@@ -61,7 +61,7 @@
     "id": 6,
     "type": "text_content",
     "text_content": {
-      "name": "Text Content 2",
+      "header": "Text Content 2",
       "content": "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Minima quam voluptatibus recusandae ab architecto voluptatum, atque dicta sit assumenda? Aperiam aliquid perspiciatis expedita a recusandae ab error quae modi maiores."
     }
   },
@@ -78,10 +78,8 @@
 
   {
     "type": "redirect_url",
-    "link": {
-      "label": "Click Me!",
-      "url": "https://www.youtube.com/"
-    }
+    "label": "Click Me!",
+    "url": "https://www.youtube.com/"
   },
 
   {

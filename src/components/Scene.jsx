@@ -193,8 +193,8 @@ const Sphere = ({
   isBottomSheetOpen,
   targetRotation,
 }) => {
-  const image_360 = data?.find((info) => info?.type === "360_image");
-  const video_360 = data?.find((info) => info?.type === "360_video");
+  const image_360 = data?.find((info) => info?.type === "carousel_360_image");
+  const video_360 = data?.find((info) => info?.type === "carousel_360_video");
   if (image_360) {
     return (
       image_360?.image_url && (
