@@ -51,7 +51,7 @@ const CarouselComponent = ({ productData, defaultSheetData }) => {
       sliderRef.current.slickPrev();
     }
   };
-  console.log("state carousel", productData);
+  console.log("state carousel", productData, defaultSheetData);
 
   return (
     <Stack position={"relative"} overflow={"hidden"}>
