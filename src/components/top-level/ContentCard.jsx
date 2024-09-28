@@ -9,6 +9,7 @@ import {
   Textarea,
   Stack,
   Icon,
+  Text,
 } from "@chakra-ui/react";
 import { DeleteIcon, EditIcon, DragHandleIcon } from "@chakra-ui/icons";
 import MediaPicker from "./MediaPicker";
@@ -40,13 +41,32 @@ const ContentCard = ({
   const textContentRef = useRef(null);
   const labelRef = useRef(null);
   const urlRef = useRef(null);
+  const [urlError, setUrlError] = useState(false);
+  // const URL_REGEX =
+  //   /^(https?:\/\/)?(([a-z0-9][a-z0-9-]*[a-z0-9]\.)+[a-z]{2,}|\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})(:\d+)?(\/[-a-z0-9\._~:/?#[$$@!$&'()*+,;=%]*)?$/i;
+  const URL_REGEX =
+    /^(https?:\/\/)(([a-z0-9][a-z0-9-]*[a-z0-9]\.)+[a-z]{2,}|\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})(:\d+)?(\/[-a-z0-9\._~:/?#[$$@!$&'()*+,;=%]*)?$/i;
 
   const handleLabelChange = (e) => {
     onUpdate({ label: e.target.value });
   };
 
   const handleUrlChange = (e) => {
-    onUpdate({ url: e.target.value });
+    const newUrl = e.target.value;
+
+    if (newUrl === "") {
+      setUrlError(false);
+      onUpdate({ url: newUrl });
+    } else {
+      const isValid = URL_REGEX.test(newUrl);
+      if (isValid) {
+        setUrlError(false);
+        onUpdate({ url: newUrl });
+      } else {
+        setUrlError(true);
+        onUpdate({ url: newUrl });
+      }
+    }
   };
 
   const handleHeaderChange = (e) => {
@@ -222,7 +242,7 @@ const ContentCard = ({
         )
       ) : null}
 
-      {type === "redirect_url" && ( //TODO: check if url is correct through regex
+      {type === "redirect_url" && (
         <Stack spacing={0}>
           <Box display="flex" alignItems="start" mb={4}>
             <Input
@@ -231,6 +251,7 @@ const ContentCard = ({
               ref={labelRef}
               value={label}
               onChange={handleLabelChange}
+              borderRadius={50}
             />
             <IconButton
               aria-label="Edit"
@@ -242,14 +263,28 @@ const ContentCard = ({
           </Box>
 
           <Box display="flex" alignItems="start" mb={4}>
-            <Input
-              placeholder="Enter url: https://agspert.com/"
-              size="sm"
-              ref={urlRef}
-              value={url}
-              onChange={handleUrlChange}
-              type="url"
-            />
+            <Stack w={"100%"} spacing={0}>
+              <Input
+                placeholder="Enter url: https://agspert.com/"
+                size="sm"
+                ref={urlRef}
+                value={url}
+                onChange={handleUrlChange}
+                type="url"
+                borderRadius={50}
+                isInvalid={urlError}
+              />
+              {urlError && url !== "" && (
+                <Text
+                  color="red.500"
+                  fontSize="sm"
+                  mb={0}
+                  alignSelf={"flex-end"}
+                >
+                  Invalid URL. Include http:// or https://
+                </Text>
+              )}
+            </Stack>
             <IconButton
               aria-label="Edit"
               icon={<EditIcon />}
@@ -263,6 +298,7 @@ const ContentCard = ({
 
       {type === "social_links" && (
         <SocialLinks
+          URL_REGEX={URL_REGEX}
           social_links={social_links}
           onChange={(newSocialLinks) =>
             onUpdate({ social_links: newSocialLinks })
@@ -285,15 +321,16 @@ const initialSocialIcons = [
 const SocialIcon = ({ icon: IconComponent, color, onClick }) => (
   <IconComponent
     color={color}
-    fontSize={24}
+    fontSize={30}
     cursor="pointer"
     onClick={onClick}
   />
 );
 
-const SocialLinks = ({ social_links, onChange }) => {
+const SocialLinks = ({ social_links, onChange, URL_REGEX }) => {
   const [availableIcons, setAvailableIcons] = useState(initialSocialIcons);
   const [selectedIcons, setSelectedIcons] = useState([]);
+  const [urlErrors, setUrlErrors] = useState({});
   const inputRefs = useRef({});
 
   useEffect(() => {
@@ -358,6 +395,9 @@ const SocialLinks = ({ social_links, onChange }) => {
   };
 
   const updateIconUrl = (iconId, url) => {
+    const isValid = url === "" || URL_REGEX.test(url);
+    setUrlErrors((prev) => ({ ...prev, [iconId]: !isValid }));
+
     setSelectedIcons(
       selectedIcons.map((icon) =>
         icon.id === iconId ? { ...icon, url } : icon
@@ -372,7 +412,7 @@ const SocialLinks = ({ social_links, onChange }) => {
     <Stack mx={10} my={5}>
       {availableIcons.length !== 0 && (
         <HStack
-          bg={"#EAEAEA"}
+          bg={"#f5f5f5"}
           padding={3}
           w={"fit-content"}
           borderRadius={50}
@@ -389,7 +429,7 @@ const SocialLinks = ({ social_links, onChange }) => {
         </HStack>
       )}
 
-      <Stack mt={3} spacing={3}>
+      <Stack mt={3} spacing={6}>
         {selectedIcons?.map((icon) => (
           <HStack key={icon.id}>
             <Icon
@@ -402,14 +442,30 @@ const SocialLinks = ({ social_links, onChange }) => {
               cursor={"pointer"}
               border={"1px solid #E2E8F0"}
             />
-            <Input
-              placeholder={icon.label}
-              size="sm"
-              ref={(el) => (inputRefs.current[icon.id] = el)}
-              value={icon.url}
-              onChange={(e) => updateIconUrl(icon.id, e.target.value)}
-              borderRadius={50}
-            />
+            <Stack w={"100%"} spacing={0} position={"relative"}>
+              <Input
+                placeholder={`https://${icon.label}.com`}
+                size="sm"
+                ref={(el) => (inputRefs.current[icon.id] = el)}
+                value={icon.url}
+                onChange={(e) => updateIconUrl(icon.id, e.target.value)}
+                borderRadius={50}
+                isInvalid={urlErrors[icon.id]}
+              />
+              {urlErrors[icon.id] && icon.url !== "" && (
+                <Text
+                  color="red.500"
+                  fontSize="sm"
+                  mb={0}
+                  position={"absolute"}
+                  bottom={-6}
+                  right={0}
+                >
+                  Invalid URL format for {icon.label}. Include http:// or
+                  https://
+                </Text>
+              )}
+            </Stack>
             <IconButton
               aria-label="Edit"
               icon={<EditIcon />}
