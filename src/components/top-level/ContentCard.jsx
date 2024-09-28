@@ -82,6 +82,11 @@ const ContentCard = ({
       ],
     });
   };
+  const handleDeleteImage = (id) => {
+    onUpdate({
+      data: data.filter((image) => image.id !== id),
+    });
+  };
 
   const mediaTypes = [
     "carousel_360_image",
@@ -194,22 +199,23 @@ const ContentCard = ({
         </Box>
       )}
 
-      {mediaTypes.includes(type) &&
+      {mediaTypes.includes(type) ?
         multipleMediaTypes.includes(type) ?
-        (
-          <MultipleMediaPicker
-            type={type}
-            dataList={data}
-            onImagesChange={(newMedia) => handleMultipleMediaChange(newMedia, type)}
-          />
-        ) :
-        (
-          <MediaPicker
-            type={type}
-            selectedImages={data[0]?.image_url ? [data[0].image_url] : []}
-            onImagesChange={handleMediaChange}
-          />
-        )}
+          (
+            <MultipleMediaPicker
+              type={type}
+              dataList={data}
+              onImagesChange={(newMedia) => handleMultipleMediaChange(newMedia, type)}
+              onDeleteImage={handleDeleteImage}
+            />
+          ) :
+          (
+            <MediaPicker
+              type={type}
+              selectedImages={data[0]?.image_url ? [data[0].image_url] : []}
+              onImagesChange={handleMediaChange}
+            />
+          ) : null}
 
       {type === "redirect_url" && ( //TODO: check if url is correct through regex
         <Stack spacing={0}>

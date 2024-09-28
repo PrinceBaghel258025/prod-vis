@@ -11,16 +11,7 @@ import {
 import { AddIcon, CloseIcon } from "@chakra-ui/icons";
 import { useDropzone } from "react-dropzone";
 
-const mediaTypes = [
-  "carousel_360_image",
-  "carousel_360_video",
-  "brand_banner",
-  "carousel_2d_image",
-  "carousel_2d_video",
-  "image_content",
-  "video_content",
-];
-const MultipleMediaPicker = ({ type, dataList, onImagesChange }) => {
+const MultipleMediaPicker = ({ type, dataList, onImagesChange, onDeleteImage }) => {
   console.log("from media picker data", type, dataList);
   const onDrop = useCallback(
     (acceptedFiles) => {
@@ -55,8 +46,9 @@ const MultipleMediaPicker = ({ type, dataList, onImagesChange }) => {
     noKeyboard: true,
   });
 
-  const removeImage = (index) => {
-    onImagesChange(dataList.filter((_, i) => i !== index));
+  const removeImage = (id) => {
+    onDeleteImage(id);
+    // onImagesChange(dataList.filter((_, i) => i !== index));
   };
 
   return (
@@ -82,7 +74,7 @@ const MultipleMediaPicker = ({ type, dataList, onImagesChange }) => {
                 position="absolute"
                 top={2}
                 right={2}
-                onClick={() => removeImage(index)}
+                onClick={() => removeImage(image?.id)}
               />
             </Box>
           ))}

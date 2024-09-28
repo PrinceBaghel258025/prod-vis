@@ -90,14 +90,6 @@ const MediaPicker = ({ type, selectedImages, onImagesChange }) => {
           </Text>
         </VStack>
       )}
-      <HStack mt={4} justifyContent="flex-end">
-        <IconButton
-          aria-label="Add more"
-          icon={<AddIcon />}
-          size="sm"
-          onClick={open}
-        />
-      </HStack>
     </Box>
   );
 };
