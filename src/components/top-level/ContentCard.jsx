@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Box,
   IconButton,
@@ -8,7 +8,6 @@ import {
   Input,
   Textarea,
   Stack,
-  Text,
   Icon,
 } from "@chakra-ui/react";
 import { DeleteIcon, EditIcon, DragHandleIcon } from "@chakra-ui/icons";
@@ -34,6 +33,7 @@ const ContentCard = ({
   onDelete,
   label,
   url,
+  social_links,
   isCarousel = false,
 }) => {
   const inputRef = useRef(null);
@@ -261,8 +261,13 @@ const ContentCard = ({
         </Stack>
       )}
 
-      {type === "social_links" && ( //TODO: make a component for this
-        <SocialLinks />
+      {type === "social_links" && (
+        <SocialLinks
+          social_links={social_links}
+          onChange={(newSocialLinks) =>
+            onUpdate({ social_links: newSocialLinks })
+          }
+        />
       )}
     </Box>
   );
@@ -286,36 +291,62 @@ const SocialIcon = ({ icon: IconComponent, color, onClick }) => (
   />
 );
 
-const SocialLinks = () => {
+const SocialLinks = ({ social_links, onChange }) => {
   const [availableIcons, setAvailableIcons] = useState(initialSocialIcons);
   const [selectedIcons, setSelectedIcons] = useState([]);
   const inputRefs = useRef({});
 
-  console.log("selectedIcons: ", selectedIcons);
+  useEffect(() => {
+    // Initialize selectedIcons from social_links
+    const initialSelectedIcons = social_links.map((link) => {
+      const iconInfo = initialSocialIcons.find(
+        (icon) => icon.name.toLowerCase() === link.label
+      );
+      return {
+        ...link,
+        icon: iconInfo?.icon,
+        color: iconInfo?.color,
+      };
+    });
+    setSelectedIcons(initialSelectedIcons);
+
+    // Update availableIcons
+    const usedLabels = new Set(social_links.map((link) => link.label));
+    setAvailableIcons(
+      initialSocialIcons.filter(
+        (icon) => !usedLabels.has(icon.name.toLowerCase())
+      )
+    );
+  }, [social_links]);
 
   const addIcon = (icon) => {
-    setSelectedIcons([
-      ...selectedIcons,
-      {
-        label: icon.name.toLowerCase(),
-        url: "",
-        icon: icon.icon,
-        color: icon.color,
-      },
-    ]);
+    const newIcon = {
+      id: nanoid(),
+      label: icon.name.toLowerCase(),
+      url: "",
+      icon: icon.icon,
+      color: icon.color,
+    };
+    setSelectedIcons([...selectedIcons, newIcon]);
     setAvailableIcons(availableIcons.filter((i) => i.name !== icon.name));
+    onChange([
+      ...social_links,
+      { id: newIcon.id, label: newIcon.label, url: newIcon.url },
+    ]);
   };
 
-  const removeIcon = (iconLabel) => {
-    const removedIcon = selectedIcons.find((i) => i.label === iconLabel);
-    setSelectedIcons(selectedIcons.filter((i) => i.label !== iconLabel));
+  const removeIcon = (iconId) => {
+    const removedIcon = selectedIcons.find((i) => i.id === iconId);
+    setSelectedIcons(selectedIcons.filter((i) => i.id !== iconId));
     setAvailableIcons(
       [
         ...availableIcons,
         {
           icon: removedIcon.icon,
           color: removedIcon.color,
-          name: iconLabel.charAt(0).toUpperCase() + iconLabel.slice(1),
+          name:
+            removedIcon.label.charAt(0).toUpperCase() +
+            removedIcon.label.slice(1),
         },
       ].sort(
         (a, b) =>
@@ -323,19 +354,23 @@ const SocialLinks = () => {
           initialSocialIcons.findIndex((i) => i.name === b.name)
       )
     );
+    onChange(social_links.filter((link) => link.id !== iconId));
   };
 
-  const updateIconUrl = (iconLabel, url) => {
+  const updateIconUrl = (iconId, url) => {
     setSelectedIcons(
       selectedIcons.map((icon) =>
-        icon?.label === iconLabel ? { ...icon, url } : icon
+        icon.id === iconId ? { ...icon, url } : icon
       )
+    );
+    onChange(
+      social_links.map((link) => (link.id === iconId ? { ...link, url } : link))
     );
   };
 
   return (
     <Stack mx={10} my={5}>
-      {availableIcons?.length !== 0 && (
+      {availableIcons.length !== 0 && (
         <HStack
           bg={"#EAEAEA"}
           padding={3}
@@ -343,11 +378,11 @@ const SocialLinks = () => {
           borderRadius={50}
           spacing={5}
         >
-          {availableIcons?.map((icon) => (
+          {availableIcons.map((icon) => (
             <SocialIcon
-              key={icon?.name}
-              icon={icon?.icon}
-              color={icon?.color}
+              key={icon.name}
+              icon={icon.icon}
+              color={icon.color}
               onClick={() => addIcon(icon)}
             />
           ))}
@@ -355,11 +390,11 @@ const SocialLinks = () => {
       )}
 
       <Stack mt={3} spacing={3}>
-        {selectedIcons?.map((icon) => (
-          <HStack key={icon?.label}>
+        {selectedIcons?.slice(1)?.map((icon) => (
+          <HStack key={icon.id}>
             <Icon
-              as={icon?.icon}
-              color={icon?.color}
+              as={icon.icon}
+              color={icon.color}
               fontSize={35}
               bg={"white"}
               p={1}
@@ -368,21 +403,21 @@ const SocialLinks = () => {
               border={"1px solid #E2E8F0"}
             />
             <Input
-              placeholder={icon?.label}
+              placeholder={icon.label}
               size="sm"
-              ref={(el) => (inputRefs.current[icon?.label] = el)}
-              value={icon?.url}
-              onChange={(e) => updateIconUrl(icon?.label, e.target.value)}
+              ref={(el) => (inputRefs.current[icon.id] = el)}
+              value={icon.url}
+              onChange={(e) => updateIconUrl(icon.id, e.target.value)}
               borderRadius={50}
             />
             <IconButton
               aria-label="Edit"
               icon={<EditIcon />}
               size="sm"
-              onClick={() => inputRefs.current[icon?.label].focus()}
+              onClick={() => inputRefs.current[icon.id].focus()}
             />
             <IconButton
-              onClick={() => removeIcon(icon?.label)}
+              onClick={() => removeIcon(icon.id)}
               aria-label="Delete"
               icon={<DeleteIcon />}
               size="sm"
