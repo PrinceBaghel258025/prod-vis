@@ -36,11 +36,11 @@ const ContentBuilder = () => {
     },
     social_links: {
       social_links: [
-        {
-          id: "",
-          url: "",
-          label: "",
-        },
+        // {
+        //   id: "",
+        //   url: "",
+        //   label: "",
+        // },
       ],
     },
   };

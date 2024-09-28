@@ -30,7 +30,7 @@ export const SocialLinks = ({ socialLinks }) => {
 
   return (
     <Flex justifyContent={"center"} gap={1}>
-      {socialLinks?.slice(1)?.map((link) => {
+      {socialLinks?.map((link) => {
         const IconComponent = getIconComponent(link.label);
         return (
           <Link

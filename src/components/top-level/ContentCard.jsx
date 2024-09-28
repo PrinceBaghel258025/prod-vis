@@ -390,7 +390,7 @@ const SocialLinks = ({ social_links, onChange }) => {
       )}
 
       <Stack mt={3} spacing={3}>
-        {selectedIcons?.slice(1)?.map((icon) => (
+        {selectedIcons?.map((icon) => (
           <HStack key={icon.id}>
             <Icon
               as={icon.icon}
