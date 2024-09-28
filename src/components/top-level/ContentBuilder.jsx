@@ -76,11 +76,11 @@ const ContentBuilder = () => {
         ...contentData,
         header: "",
         data: [
-          {
-            id: nanoid(),
-            type,
-            image_url: "",
-          },
+          // {
+          //   id: nanoid(),
+          //   type,
+          //   image_url: "",
+          // },
         ],
       },
     ]);
@@ -94,6 +94,7 @@ const ContentBuilder = () => {
     );
   };
   const updateSheetData = (id, newData) => {
+    
     setSheetData(
       sheetData.map((content) =>
         content.id === id ? { ...content, ...newData } : content

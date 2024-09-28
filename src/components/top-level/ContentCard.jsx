@@ -21,6 +21,8 @@ import { FaFacebookSquare } from "react-icons/fa";
 import { FaPinterest } from "react-icons/fa";
 import { FaShopify } from "react-icons/fa";
 import { IoLogoInstagram } from "react-icons/io5";
+import { nanoid } from "nanoid";
+import MultipleMediaPicker from "./MultipleMediaPicker";
 
 const ContentCard = ({
   id,
@@ -66,12 +68,31 @@ const ContentCard = ({
     });
   };
 
+
+  const handleMultipleMediaChange = (newMedia, type) => {
+    console.log("new media", newMedia)
+    onUpdate({
+      data: [
+        ...data,
+        {
+          id: nanoid(),
+          type,
+          image_url: newMedia[0],
+        },
+      ],
+    });
+  };
+
   const mediaTypes = [
     "carousel_360_image",
     "carousel_360_video",
     "brand_banner",
     "carousel_2d_image",
     "carousel_2d_video",
+    "image_content",
+    "video_content",
+  ];
+  const multipleMediaTypes = [
     "image_content",
     "video_content",
   ];
@@ -173,15 +194,24 @@ const ContentCard = ({
         </Box>
       )}
 
-      {mediaTypes.includes(type) && (
-        <MediaPicker
-          type={type}
-          selectedImages={data[0]?.image_url ? [data[0].image_url] : []}
-          onImagesChange={handleMediaChange}
-        />
-      )}
+      {mediaTypes.includes(type) &&
+        multipleMediaTypes.includes(type) ?
+        (
+          <MultipleMediaPicker
+            type={type}
+            dataList={data}
+            onImagesChange={(newMedia) => handleMultipleMediaChange(newMedia, type)}
+          />
+        ) :
+        (
+          <MediaPicker
+            type={type}
+            selectedImages={data[0]?.image_url ? [data[0].image_url] : []}
+            onImagesChange={handleMediaChange}
+          />
+        )}
 
-      {type === "redirect_url" && (
+      {type === "redirect_url" && ( //TODO: check if url is correct through regex
         <Stack spacing={0}>
           <Box display="flex" alignItems="start" mb={4}>
             <Input
@@ -220,7 +250,7 @@ const ContentCard = ({
         </Stack>
       )}
 
-      {type === "social_links" && (
+      {type === "social_links" && ( //TODO: make a component for this
         <Stack mx={10} my={5}>
           <HStack
             bg={"#EAEAEA"}
@@ -254,7 +284,7 @@ const ContentCard = ({
                 size="sm"
                 ref={inputRef}
                 value={header}
-                onChange={() => {}}
+                onChange={() => { }}
                 borderRadius={50}
               />
               <IconButton
@@ -264,7 +294,7 @@ const ContentCard = ({
                 onClick={() => textContentRef.current.focus()}
               />
               <IconButton
-                onClick={() => {}}
+                onClick={() => { }}
                 aria-label="Delete"
                 icon={<DeleteIcon />}
                 size="sm"

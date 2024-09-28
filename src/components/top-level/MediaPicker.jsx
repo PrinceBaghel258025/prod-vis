@@ -13,7 +13,7 @@ import { useDropzone } from "react-dropzone";
 
 const MediaPicker = ({ type, selectedImages, onImagesChange }) => {
   const onDrop = useCallback(
-    (acceptedFiles: File[]) => {
+    (acceptedFiles) => {
       const newImages = acceptedFiles
         .filter(
           (file) =>
@@ -45,7 +45,7 @@ const MediaPicker = ({ type, selectedImages, onImagesChange }) => {
     noKeyboard: true,
   });
 
-  const removeImage = (index: number) => {
+  const removeImage = (index) => {
     onImagesChange(selectedImages.filter((_, i) => i !== index));
   };
 

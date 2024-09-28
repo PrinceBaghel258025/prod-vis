@@ -42,8 +42,8 @@ export const ImageContent = ({ media }) => {
         <Stack as={Slider} {...settings} my={3}>
           {images?.map((img) => (
             <Image
-              key={id}
-              src={image_url}
+              key={img?.id}
+              src={img?.image_url}
               alt="image"
               w={"100%"}
               h={"100%"}
