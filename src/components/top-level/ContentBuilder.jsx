@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from "react";
-import { VStack, Box, Stack, Text, Tag } from "@chakra-ui/react";
+import { VStack, Box, Stack, Text, Tag, HStack } from "@chakra-ui/react";
 import ContentCard from "./ContentCard";
 import AddContentButton from "./AddContentButton";
 import { nanoid } from "nanoid";
@@ -10,7 +10,6 @@ import {
   verticalListSortingStrategy,
   arrayMove,
 } from "@dnd-kit/sortable";
-
 
 const ContentBuilder = () => {
   const [contents, setContents] = useState([]);
@@ -47,7 +46,14 @@ const ContentBuilder = () => {
   };
 
   const addContent = (type) => {
-    if (["carousel_360_image", "carousel_360_video", "carousel_2d_image", "carousel_2d_video"].includes(type)) {
+    if (
+      [
+        "carousel_360_image",
+        "carousel_360_video",
+        "carousel_2d_image",
+        "carousel_2d_video",
+      ].includes(type)
+    ) {
       setContents([
         ...contents,
         {
@@ -94,7 +100,6 @@ const ContentBuilder = () => {
     );
   };
   const updateSheetData = (id, newData) => {
-
     setSheetData(
       sheetData.map((content) =>
         content.id === id ? { ...content, ...newData } : content
@@ -144,9 +149,15 @@ const ContentBuilder = () => {
         overflowY={"scroll"}
         pb={"10dvh"}
       >
-        <Box position="absolute" top={10} right={4}>
+        <HStack
+          position="sticky"
+          justifyContent={"flex-end"}
+          top={10}
+          right={4}
+          zIndex={10}
+        >
           <AddContentButton onAdd={addContent} contents={contents} />
-        </Box>
+        </HStack>
 
         <VStack mt={24} spacing={4} align="stretch">
           <DndContext
