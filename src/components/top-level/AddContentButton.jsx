@@ -9,9 +9,13 @@ import {
 } from "@chakra-ui/react";
 import { AddIcon } from "@chakra-ui/icons";
 
-const AddContentButton = ({ onAdd, contents }) => {
-  const removeBtn = contents?.some((btn) =>
+const AddContentButton = ({ onAdd, sheetData }) => {
+  const removeBrandBtn = sheetData?.some((btn) =>
     btn?.type?.includes("brand_banner")
+  );
+
+  const removeSocialBtn = sheetData?.some((btn) =>
+    btn?.type?.includes("social_links")
   );
 
   return (
@@ -41,7 +45,7 @@ const AddContentButton = ({ onAdd, contents }) => {
           2d Video<Tag borderRadius={10}>Carousel</Tag>
         </MenuItem>
 
-        {!removeBtn && (
+        {!removeBrandBtn && (
           <MenuItem onClick={() => onAdd("brand_banner")} gap={2}>
             Banner <Tag borderRadius={10}>Sheet</Tag>
           </MenuItem>
@@ -64,12 +68,14 @@ const AddContentButton = ({ onAdd, contents }) => {
         </MenuItem>
 
         <MenuItem onClick={() => onAdd("redirect_url")} gap={2}>
-          Redirect <Tag borderRadius={10}>Sheet</Tag>
+          Redirect Button <Tag borderRadius={10}>Sheet</Tag>
         </MenuItem>
 
-        <MenuItem onClick={() => onAdd("social_links")} gap={2}>
-          Social Links <Tag borderRadius={10}>Sheet</Tag>
-        </MenuItem>
+        {!removeSocialBtn && (
+          <MenuItem onClick={() => onAdd("social_links")} gap={2}>
+            Social Links <Tag borderRadius={10}>Sheet</Tag>
+          </MenuItem>
+        )}
       </MenuList>
     </Menu>
   );

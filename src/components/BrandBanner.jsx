@@ -6,7 +6,7 @@ export const BrandBanner = ({ data }) => {
 
   return (
     <>
-      {brandBanner ? (
+      {brandBanner?.data[0]?.image_url ? (
         <Image
           src={brandBanner?.data[0]?.image_url}
           alt="banner"

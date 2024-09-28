@@ -156,7 +156,7 @@ const ContentBuilder = () => {
           right={4}
           zIndex={10}
         >
-          <AddContentButton onAdd={addContent} contents={contents} />
+          <AddContentButton onAdd={addContent} sheetData={sheetData} />
         </HStack>
 
         <VStack mt={24} spacing={4} align="stretch">
