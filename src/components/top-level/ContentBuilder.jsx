@@ -82,6 +82,7 @@ const ContentBuilder = () => {
         type,
         ...contentData,
         header: "",
+        isActive: true,
         data: [
           // {
           //   id: nanoid(),

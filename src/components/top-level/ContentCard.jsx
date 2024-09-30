@@ -35,6 +35,7 @@ const ContentCard = ({
   label,
   url,
   social_links,
+  isActive,
   isCarousel = false,
 }) => {
   const inputRef = useRef(null);
@@ -177,7 +178,8 @@ const ContentCard = ({
           />
           <Switch
             size="md"
-            onChange={() => onUpdate({ isActive: !data[0]?.isActive })}
+            defaultChecked
+            onChange={() => onUpdate({ isActive: !isActive })}
           />
         </HStack>
       </HStack>

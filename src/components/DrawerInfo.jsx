@@ -29,35 +29,67 @@ export const DrawerInfo = ({ data }) => {
         ? data?.map((info) => {
             switch (info?.type) {
               case "header":
-                return <Header key={info?.id} headerTitle={info?.header} />;
+                return (
+                  <>
+                    {info?.isActive && (
+                      <Header key={info?.id} headerTitle={info?.header} />
+                    )}
+                  </>
+                );
               case "text_content":
                 return (
-                  <TextContent
-                    key={info?.id}
-                    header={info?.header}
-                    content={info?.content}
-                  />
+                  <>
+                    {info?.isActive && (
+                      <TextContent
+                        key={info?.id}
+                        header={info?.header}
+                        content={info?.content}
+                      />
+                    )}
+                  </>
                 );
               case "image_content":
                 return (
-                  <ImageContent
-                    key={info?.id}
-                    //  media={info?.image_urls}
-                    media={info?.data}
-                  />
+                  <>
+                    {info?.isActive && (
+                      <ImageContent key={info?.id} media={info?.data} />
+                    )}
+                  </>
                 );
               case "partners":
-                return <BusinessPartner key={info?.id} partner={info?.data} />;
+                return (
+                  <>
+                    {info?.isActive && (
+                      <BusinessPartner key={info?.id} partner={info?.data} />
+                    )}
+                  </>
+                );
               case "video_content":
-                return <VideoContent key={info?.id} media={info?.data} />;
+                return (
+                  <>
+                    {info?.isActive && (
+                      <VideoContent key={info?.id} media={info?.data} />
+                    )}
+                  </>
+                );
               case "redirect_url":
-                return <RedirectButton key={info?.id} link={info} />;
+                return (
+                  <>
+                    {info?.isActive && (
+                      <RedirectButton key={info?.id} link={info} />
+                    )}
+                  </>
+                );
               case "social_links":
                 return (
-                  <SocialLinks
-                    key={info?.id}
-                    socialLinks={info?.social_links}
-                  />
+                  <>
+                    {info?.isActive && (
+                      <SocialLinks
+                        key={info?.id}
+                        socialLinks={info?.social_links}
+                      />
+                    )}
+                  </>
                 );
               default:
                 return null;
