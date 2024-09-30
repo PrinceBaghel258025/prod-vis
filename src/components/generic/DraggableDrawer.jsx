@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
 import { animated, useSpring } from "@react-spring/web";
 import { useDrag } from "react-use-gesture/dist";
@@ -19,7 +19,7 @@ const threshold = 10;
 const spring = { tension: 247, friction: 27 };
 const dampedSpring = { tension: 247, friction: 33 };
 
-const [COLLAPSED, FULL_EXPANDED] = [0, 1];
+const [COLLAPSED, HALF_EXPANDED, FULL_EXPANDED] = [0, 1, 2];
 
 export default function DraggableDrawer({
   children,
@@ -27,16 +27,13 @@ export default function DraggableDrawer({
   setIsBottomSheetOpen,
 }) {
   const { height } = useWindowSize();
-  const level = React.useMemo(
-    () => [0, -(height - 160), -(height - 160)],
-    [height]
-  );
+  const level = useMemo(() => [0, -(height / 2), -(height - 160)], [height]);
 
-  const [current, setCurrent] = React.useState(COLLAPSED);
+  const [current, setCurrent] = useState(HALF_EXPANDED);
 
   // Initial value settings
   const [{ y }, set] = useSpring(() => ({
-    y: -40,
+    y: level[HALF_EXPANDED],
     config: { tension: 250, friction: 30 },
   }));
 
@@ -46,8 +43,8 @@ export default function DraggableDrawer({
   };
 
   const handleDrawerClose = () => {
-    set({ y: -40, config: dampedSpring, immediate: false });
-    setCurrent(COLLAPSED);
+    set({ y: level[HALF_EXPANDED], config: dampedSpring, immediate: false });
+    setCurrent(HALF_EXPANDED);
   };
 
   const bind = useDrag(
@@ -83,6 +80,8 @@ export default function DraggableDrawer({
 
         if (point === level[COLLAPSED]) {
           setCurrent(COLLAPSED);
+        } else if (point === level[HALF_EXPANDED]) {
+          setCurrent(HALF_EXPANDED);
         } else {
           setCurrent(FULL_EXPANDED);
         }
@@ -132,7 +131,7 @@ export default function DraggableDrawer({
         <Header {...bind()}>
           <IconButton
             display={current === FULL_EXPANDED ? "none" : "flex"}
-            icon={current === COLLAPSED && <IoIosArrowUp size={40} />}
+            icon={current !== FULL_EXPANDED && <IoIosArrowUp size={40} />}
             color={"white"}
             borderRadius={50}
             top={-45}

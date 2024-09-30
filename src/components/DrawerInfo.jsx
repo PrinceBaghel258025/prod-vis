@@ -22,7 +22,7 @@ export const DrawerInfo = ({ data }) => {
         },
       }}
       justifyContent={"space-between"}
-      mt={"4.5rem"}
+      mt={"2.5rem"}
       spacing={1}
     >
       {data?.length > 0

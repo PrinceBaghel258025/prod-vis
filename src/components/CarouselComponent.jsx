@@ -53,11 +53,13 @@ const CarouselComponent = ({ productData, defaultSheetData }) => {
   };
   console.log("state carousel", productData, defaultSheetData);
 
+  const shouldShowEmptyState =
+    !productData?.length || !productData[0]?.isActive;
+
   return (
     <Stack position={"relative"} overflow={"hidden"}>
       <Slider ref={sliderRef} {...settings}>
-        {productData?.length === 0 ||
-          (!productData?.[0]?.isActive && <Stack h={"80dvh"} />)}
+        {shouldShowEmptyState && <Stack h={"80dvh"} />}
 
         {productData?.map((dataset) => {
           return (
