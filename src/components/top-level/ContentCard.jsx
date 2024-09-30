@@ -122,8 +122,9 @@ const ContentCard = ({
     "carousel_2d_video",
     "image_content",
     "video_content",
+    "partners",
   ];
-  const multipleMediaTypes = ["image_content", "video_content"];
+  const multipleMediaTypes = ["image_content", "video_content", "partners"];
 
   const contentTypes = [
     "header",

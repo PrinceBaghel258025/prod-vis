@@ -71,6 +71,10 @@ const AddContentButton = ({ onAdd, sheetData }) => {
           Redirect Button <Tag borderRadius={10}>Sheet</Tag>
         </MenuItem>
 
+        <MenuItem onClick={() => onAdd("partners")} gap={2}>
+          Partners <Tag borderRadius={10}>Sheet</Tag>
+        </MenuItem>
+
         {!removeSocialBtn && (
           <MenuItem onClick={() => onAdd("social_links")} gap={2}>
             Social Links <Tag borderRadius={10}>Sheet</Tag>

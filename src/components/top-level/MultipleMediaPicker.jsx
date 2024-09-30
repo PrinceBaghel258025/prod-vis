@@ -29,7 +29,13 @@ import {
   useSortable,
 } from "@dnd-kit/sortable";
 
-const MultipleMediaPicker = ({ type, dataList, onImagesChange, onDeleteImage, changeOrder }) => {
+const MultipleMediaPicker = ({
+  type,
+  dataList,
+  onImagesChange,
+  onDeleteImage,
+  changeOrder,
+}) => {
   console.log("from media picker data", type, dataList);
 
   const sensors = useSensors(
@@ -59,15 +65,16 @@ const MultipleMediaPicker = ({ type, dataList, onImagesChange, onDeleteImage, ch
       "brand_banner",
       "carousel_2d_image",
       "image_content",
+      "partners",
     ].some((t) => t === type)
       ? {
-        "image/jpeg": [],
-        "image/png": [],
-      }
+          "image/jpeg": [],
+          "image/png": [],
+        }
       : {
-        "video/mp4": [],
-        "video/mov": [],
-      },
+          "video/mp4": [],
+          "video/mov": [],
+        },
     noClick: true,
     noKeyboard: true,
   });
@@ -87,6 +94,8 @@ const MultipleMediaPicker = ({ type, dataList, onImagesChange, onDeleteImage, ch
     }
   };
 
+  const isPartners = type === "partners";
+
   return (
     <Box {...getRootProps()}>
       <input {...getInputProps()} />
@@ -97,12 +106,20 @@ const MultipleMediaPicker = ({ type, dataList, onImagesChange, onDeleteImage, ch
           onDragEnd={handleDragEnd}
         >
           <SortableContext items={dataList} strategy={rectSortingStrategy}>
-            <SimpleGrid columns={[1, 2, 3]} spacing={4}>
+            <SimpleGrid
+              columns={isPartners ? [1, 2, 3, 4] : [1, 2, 3]}
+              spacing={4}
+            >
               {dataList.map((item) => (
                 // <SortableItem key={item.id} id={item.id}>
 
                 // </SortableItem>
-                <MediaCard key={item.id} item={item} removeImage={removeImage} />
+                <MediaCard
+                  key={item.id}
+                  item={item}
+                  removeImage={removeImage}
+                  type={type}
+                />
               ))}
             </SimpleGrid>
           </SortableContext>
@@ -136,53 +153,79 @@ const MultipleMediaPicker = ({ type, dataList, onImagesChange, onDeleteImage, ch
   );
 };
 
-
-const MediaCard = ({ item, removeImage }) => {
+const MediaCard = ({ item, removeImage, type }) => {
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id: item.id });
 
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
-    cursor: 'grab',
+    cursor: "grab",
   };
 
-  return <Card ref={setNodeRef} style={style}>
-    <CardBody position="relative" p={0}>
-      {item.type === "video_content" ? (
-        <video
-          src={item.image_url}
-          alt={`Selected media ${item.id}`}
-          style={{ width: "100%", height: "auto" }}
+  const isPartners = type === "partners";
+
+  return (
+    <Card ref={setNodeRef} style={style} boxShadow={"none"}>
+      <CardBody
+        position="relative"
+        p={0}
+        display={"flex"}
+        justifyContent={"center"}
+        alignItems={"center"}
+        bg={"transparent"}
+      >
+        {item.type === "video_content" ? (
+          <video
+            src={item.image_url}
+            alt={`Selected media ${item.id}`}
+            style={{ width: "100%", height: "auto" }}
+          />
+        ) : (
+          <>
+            {isPartners ? (
+              <Image
+                src={item.image_url}
+                alt={`Selected media ${item.id}`}
+                width="10rem"
+                height="10rem"
+                objectFit="cover"
+                borderRadius="full"
+                boxShadow={"md"}
+              />
+            ) : (
+              <Image
+                src={item.image_url}
+                alt={`Selected media ${item.id}`}
+                borderRadius="md"
+              />
+            )}
+          </>
+        )}
+        <IconButton
+          {...attributes}
+          {...listeners}
+          aria-label="Pick image"
+          icon={<DragHandleIcon />}
+          size="sm"
+          position="absolute"
+          top={2}
+          left={2}
+          colorScheme={"gray"}
+          borderRadius={isPartners && "full"}
         />
-      ) : (
-        <Image
-          src={item.image_url}
-          alt={`Selected media ${item.id}`}
-          borderRadius="md"
+        <IconButton
+          aria-label="Remove image"
+          icon={<CloseIcon />}
+          size="sm"
+          position="absolute"
+          top={2}
+          right={2}
+          borderRadius={isPartners && "full"}
+          onClick={(e) => removeImage(e, item.id)}
         />
-      )}
-      <IconButton
-        {...attributes}
-        {...listeners}
-        aria-label="Pick image"
-        icon={<DragHandleIcon />}
-        size="sm"
-        position="absolute"
-        top={2}
-        left={2}
-        colorScheme="green"
-      />
-      <IconButton
-        aria-label="Remove image"
-        icon={<CloseIcon />}
-        size="sm"
-        position="absolute"
-        top={2}
-        right={2}
-        onClick={(e) => removeImage(e, item.id)}
-      />
-    </CardBody>
-  </Card>
-}
+      </CardBody>
+    </Card>
+  );
+};
 export default MultipleMediaPicker;
