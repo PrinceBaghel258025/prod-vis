@@ -53,15 +53,18 @@ const CarouselComponent = ({ productData, defaultSheetData }) => {
   };
   console.log("state carousel", productData, defaultSheetData);
 
+  const shouldShowEmptyState =
+    !productData?.length || !productData[0]?.isActive;
+
   return (
     <Stack position={"relative"} overflow={"hidden"}>
       <Slider ref={sliderRef} {...settings}>
-        {productData?.length === 0 && <Stack h={"80dvh"} />}
+        {shouldShowEmptyState && <Stack h={"80dvh"} />}
 
         {productData?.map((dataset) => {
           return (
             <Stack key={dataset.id}>
-              {dataset?.type === "carousel_360_image" && (
+              {dataset?.type === "carousel_360_image" && dataset?.isActive && (
                 <Scene
                   zoom={dataset?.zoom || 1}
                   targetRotation={dataset?.targetRotation}
@@ -74,7 +77,7 @@ const CarouselComponent = ({ productData, defaultSheetData }) => {
                 />
               )}
 
-              {dataset?.type === "carousel_360_video" && (
+              {dataset?.type === "carousel_360_video" && dataset?.isActive && (
                 <Scene
                   zoom={dataset?.zoom || 1}
                   targetRotation={dataset?.targetRotation}
@@ -86,7 +89,7 @@ const CarouselComponent = ({ productData, defaultSheetData }) => {
                 />
               )}
 
-              {dataset?.type === "carousel_2d_image" && (
+              {dataset?.type === "carousel_2d_image" && dataset?.isActive && (
                 <ImageScreen
                   header={dataset?.header}
                   setIsInteracting={setIsInteracting}
@@ -94,7 +97,7 @@ const CarouselComponent = ({ productData, defaultSheetData }) => {
                 />
               )}
 
-              {dataset?.type === "carousel_2d_video" && (
+              {dataset?.type === "carousel_2d_video" && dataset?.isActive && (
                 <VideoScreen
                   header={dataset?.header}
                   setIsInteracting={setIsInteracting}

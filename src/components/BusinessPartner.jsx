@@ -1,4 +1,4 @@
-import { Flex, HStack, Image, Text } from "@chakra-ui/react";
+import { Flex, HStack, Image, Stack } from "@chakra-ui/react";
 import React from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
@@ -13,71 +13,37 @@ export const BusinessPartner = ({ partner }) => {
     slidesToScroll: 3,
     arrows: false,
   };
+
   return (
     <>
-      <Flex w={"100%"} justifyContent={"center"}>
+      <Flex justifyContent={"center"} mb={3}>
         {partner?.length === 1 ? (
-          <Flex
-            direction={"column"}
-            alignItems={"center"}
-            textAlign={"center"}
-            w={"fit-content"}
-            color={"black"}
-            gap={1}
-          >
-            <Flex
-              w={20}
-              h={20}
-              overflow={"auto"}
-              borderRadius={"5rem"}
-              justifyContent={"center"}
-              alignItems={"center"}
-            >
-              <Image
-                w={"100%"}
-                // aspectRatio={"3/2"}
-                objectFit={"contain"}
-                src={partner[0]?.image_url}
-                alt="profile"
-              />
-            </Flex>
-            <Text mb={0} fontSize={"small"}>
-              {partner[0]?.name}
-            </Text>
-          </Flex>
+          <Image
+            src={partner[0]?.image_url}
+            alt={`img`}
+            width="3.5rem"
+            height="3.5rem"
+            objectFit="cover"
+            borderRadius="full"
+            boxShadow={"md"}
+          />
         ) : (
-          <HStack as={Slider} {...settings} width={"100%"} my={3}>
-            {partner?.map((item) => (
-              <Flex
-                direction={"column"}
-                alignItems={"center"}
-                textAlign={"center"}
-                w={"fit-content"}
-                color={"black"}
-                gap={1}
-                key={item?.id}
-              >
-                <Flex
-                  w={20}
-                  h={20}
-                  overflow={"auto"}
-                  borderRadius={"5rem"}
-                  justifyContent={"center"}
-                  alignItems={"center"}
-                >
+          <HStack as={Slider} {...settings} width={"100%"} my={3} spacing={2}>
+            {partner?.map((item) => {
+              return (
+                <Stack>
                   <Image
-                    w={"100%"}
-                    // aspectRatio={"3/2"}
-                    objectFit={"contain"}
                     src={item?.image_url}
-                    alt="profile"
+                    alt={`img`}
+                    width="3.5rem"
+                    height="3.5rem"
+                    objectFit="cover"
+                    borderRadius="full"
+                    boxShadow={"md"}
                   />
-                </Flex>
-                <Text mb={0} fontSize={"small"}>
-                  {item?.name}
-                </Text>
-              </Flex>
-            ))}
+                </Stack>
+              );
+            })}
           </HStack>
         )}
       </Flex>

@@ -35,6 +35,7 @@ const ContentCard = ({
   label,
   url,
   social_links,
+  isActive,
   isCarousel = false,
 }) => {
   const inputRef = useRef(null);
@@ -122,8 +123,9 @@ const ContentCard = ({
     "carousel_2d_video",
     "image_content",
     "video_content",
+    "partners",
   ];
-  const multipleMediaTypes = ["image_content", "video_content"];
+  const multipleMediaTypes = ["image_content", "video_content", "partners"];
 
   const contentTypes = [
     "header",
@@ -176,7 +178,8 @@ const ContentCard = ({
           />
           <Switch
             size="md"
-            onChange={() => onUpdate({ isActive: !data[0]?.isActive })}
+            defaultChecked
+            onChange={() => onUpdate({ isActive: !isActive })}
           />
         </HStack>
       </HStack>

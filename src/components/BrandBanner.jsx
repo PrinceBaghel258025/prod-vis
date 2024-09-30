@@ -6,7 +6,7 @@ export const BrandBanner = ({ data }) => {
 
   return (
     <>
-      {brandBanner?.data[0]?.image_url ? (
+      {brandBanner?.data[0]?.image_url && brandBanner?.isActive ? (
         <Image
           src={brandBanner?.data[0]?.image_url}
           alt="banner"
@@ -16,6 +16,9 @@ export const BrandBanner = ({ data }) => {
           borderTopRightRadius={"18px"}
           borderTopLeftRadius={"18px"}
           zIndex={10}
+          h={"4.95rem"}
+          w={"100%"}
+          objectFit="cover"
         />
       ) : null}
     </>

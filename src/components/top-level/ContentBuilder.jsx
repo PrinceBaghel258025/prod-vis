@@ -43,6 +43,7 @@ const ContentBuilder = () => {
         // },
       ],
     },
+    partners: [],
   };
 
   const addContent = (type) => {
@@ -60,6 +61,7 @@ const ContentBuilder = () => {
           id: nanoid(),
           type,
           header: "",
+          isActive: true,
           data: [
             {
               id: nanoid(),
@@ -81,6 +83,7 @@ const ContentBuilder = () => {
         type,
         ...contentData,
         header: "",
+        isActive: true,
         data: [
           // {
           //   id: nanoid(),
